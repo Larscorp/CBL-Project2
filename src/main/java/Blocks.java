@@ -79,6 +79,17 @@ public class Blocks {
         {false, false, false, false}
     }, 5); // light blue
     
+    public static Blocks debugT = new Blocks(new boolean[][] {
+        {false,  true,  true,  true,  true,  true,  true,  false  },
+        {true,  true,  true,  true,  true,  true,  true,  true  },
+        {true,  false, false, true,  true,  false, false, true  },
+        {false, false, false, true,  true,  false, false, false },
+        {false, false, false, true,  true,  false, false, false },
+        {false, false, false, true,  true,  false, false, false },
+        {false, false, true,  true,  true,  true,  false, false },
+        {false, true,  true,  true,  true,  true,  true,  false }
+    }, 7);
+    
     public void simpleRotateBlockCounterClockwise() { // Counterclockwise matrix rotation
         int size = grid[0].length;
         boolean[][] newRotation = new boolean[size][size];
@@ -111,6 +122,7 @@ public class Blocks {
         }
         grid = newRotation;
     }
+    
     public void printPiece() { // debug method
         int size = grid[0].length;
         for (int n = 0; n < size; n++) {
@@ -121,13 +133,13 @@ public class Blocks {
         }
     }
     
-     public void placePiece(Board board) {
+    public void placePiece(int r, int c, Board board) { // Input starts Top left corner 
         int size = grid[0].length;
         for (int n = 0; n < size; n++) {
             for (int m = 0; m < size; m++) {
-                if (grid[n][m]) {
-                    board.fillSquare(n, m, color);
-                }
+                if (grid[n][m]) { 
+                    board.fillSquare((r - n), (c + m), color);
+                } 
             }
         }
     }
