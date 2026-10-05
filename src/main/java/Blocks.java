@@ -88,7 +88,7 @@ public class Blocks {
         {false, false, false, true,  true,  false, false, false },
         {false, false, true,  true,  true,  true,  false, false },
         {false, true,  true,  true,  true,  true,  true,  false }
-    }, 7);
+    }, 7); // debug piece, purple
     
     public void simpleRotateBlockCounterClockwise() { // Counterclockwise matrix rotation
         int size = grid[0].length;
