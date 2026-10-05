@@ -42,4 +42,16 @@ public class Board {
             System.out.println();
         }
     }
+    
+    public int[][] getGrid() {
+        return grid;
+    } 
+    
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+    
+    public int getBoardLength() {
+        return boardLength;
+    }
 }
