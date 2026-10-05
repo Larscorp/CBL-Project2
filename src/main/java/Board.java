@@ -8,8 +8,8 @@ public class Board {
     }
     
     public void fillSquare(int r, int c, int color) {
-        grid[r][c] = color;
-    }
+        grid[r - 1][c - 1] = color;
+    } // -1 for translation between coordinates and indexes
     
     public int checkRows(int rowBegin, int rowEnd) {
         int amount = 0;
@@ -33,5 +33,13 @@ public class Board {
             System.arraycopy(grid[n], 0, grid[n - 1], 0, boardLength);
         }
     }
-   
+    
+    public void printBoard() {
+        for (int n = boardLength - 1; n >= 0; n--) {
+            for (int m = 0; m < boardWidth; m++) { 
+                System.out.print(grid[n][m] + " ");
+            }
+            System.out.println();
+        }
+    }
 }
