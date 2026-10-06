@@ -143,4 +143,16 @@ public class Blocks {
             }
         }
     }
+    
+    public void checkBottoms() { 
+        int size = grid[0].length;
+        
+        for (int n = 0; n < size; n++) {
+            for (int m = size; m >= 0; m++) {
+                if (grid[n][m]) {
+                    
+                }
+            }
+        }
+    }
 }

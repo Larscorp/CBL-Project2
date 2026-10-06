@@ -43,6 +43,18 @@ public class Board {
         }
     }
     
+    public boolean hasColision(int r, int c) {
+        if (r > boardLength || r <= 0 || c > boardWidth || c <= 0) {
+            return true; // check if the given coordinates are within the board
+        } else {
+            return grid[r - 1][c - 1] != 0;
+        }
+    }
+    
+    /*public boolean shouldPlace(int r, int c, Blocks currentBlock) {
+        currentBlock[1][2] = true;
+    }*/
+    
     public int[][] getGrid() {
         return grid;
     } 
