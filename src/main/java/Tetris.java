@@ -1,10 +1,19 @@
+import javax.swing.*;
+
 public class Tetris {
       public static void main(String[] args) {
-        Bag bag = new Bag();
-        for (int i = 0; i < 7 ; i++) {
-            Blocks currentBlock = bag.getNextBlock();
-            currentBlock.printPiece();
-            //print hello
-        }
+         SwingUtilities.invokeLater(() -> {
+            Board board = new Board();
+            TetrisGUI gui = new TetrisGUI(board);
+            JFrame frame = new JFrame("Tetris");
+
+            frame.add(gui);
+            frame.pack();
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setLocationRelativeTo(null);
+            frame.setResizable(false);
+            frame.setVisible(true);
+        });
     }
 }
