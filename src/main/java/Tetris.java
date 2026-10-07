@@ -2,18 +2,18 @@ import javax.swing.*;
 
 public class Tetris {
       public static void main(String[] args) {
-         SwingUtilities.invokeLater(() -> {
-            Board board = new Board();
-            TetrisGUI gui = new TetrisGUI(board);
-            JFrame frame = new JFrame("Tetris");
+          Board board = new Board();
 
-            frame.add(gui);
-            frame.pack();
+        Bag bag = new Bag();
+        Blocks currentPiece = bag.getNextBlock();
+        BoardPanel panel = new BoardPanel(board);
+        panel.setCurrentPiece(currentPiece, 0, 3);
 
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setLocationRelativeTo(null);
-            frame.setResizable(false);
-            frame.setVisible(true);
-        });
+        JFrame frame = new JFrame("Tetris");
+        frame.add(panel);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        }
     }
-}

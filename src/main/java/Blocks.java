@@ -155,4 +155,12 @@ public class Blocks {
             }
         }
     }
+    
+    public boolean[][] getGrid() {
+        return grid;
+    }
+    
+    public int getColor() {
+        return color;
+    }
 }
