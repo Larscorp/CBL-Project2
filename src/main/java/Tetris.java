@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Tetris {
       public static void main(String[] args) {
-          Board board = new Board();
+        Board board = new Board();
 
         Bag bag = new Bag();
         Blocks currentPiece = bag.getNextBlock();
@@ -15,5 +15,10 @@ public class Tetris {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        
+        //debug for fallSpeed
+        Movement movement =  new Movement();
+        double speed = movement.fallSpeed();
+        System.out.println(speed);
         }
     }

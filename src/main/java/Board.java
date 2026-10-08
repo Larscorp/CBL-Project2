@@ -27,6 +27,7 @@ public class Board {
                 deleteRows(n);
             }
         }
+        linesCleared += amount;
         return amount;
     }
     
