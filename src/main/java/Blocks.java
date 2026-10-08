@@ -11,24 +11,29 @@ Colors are defined as follows:
 7: purple
 8: grey (possible use as garbage/permanent lines
 */
+import java.util.Arrays;
 
 public class Blocks {
     private boolean[][] grid;
     private int color;
+    private int[][] bottomList;
     
     public Blocks(int size, int col) { 
         this.grid = new boolean[size][size];
         this.color = col;
+        this.bottomList = new int[(size + 1) / 2][size];
     }
     
     public Blocks(boolean[][] grid, int col) {
         this.grid = grid;
         this.color = col;
+        this.bottomList = new int[(grid[0].length + 1) / 2][grid[0].length];
     }
     
     public Blocks(Blocks piece, int col) {
         this.grid = new boolean[piece.grid.length][piece.grid.length];
         this.color = col;
+        this.bottomList = new int[(grid[0].length + 1) / 2][grid[0].length];
         for (int n = 0; n < piece.grid.length; n++) {
             for (int m = 0; m < piece.grid.length; m++) {
                 this.grid[n][m] = piece.grid[n][m];
@@ -99,6 +104,7 @@ public class Blocks {
             }
         }
         grid = newRotation;
+        checkBottoms();
     }
     
     public void simpleRotateBlockClockwise() { // Clockwise matrix rotation.
@@ -110,6 +116,7 @@ public class Blocks {
             }
         }
         grid = newRotation;
+        checkBottoms();
     }
     
     public void simpleRotate180() { // 180 matrix rotation
@@ -121,6 +128,7 @@ public class Blocks {
             }
         }
         grid = newRotation;
+        checkBottoms();
     }
     
     public void printPiece() { // debug method
@@ -144,15 +152,34 @@ public class Blocks {
         }
     }
     
-    public void checkBottoms() { 
+    public void checkBottoms() {
         int size = grid[0].length;
-        
+        for (int n = 0; n < bottomList.length; n++) {
+            Arrays.fill(bottomList[n], -1);
+        }
         for (int n = 0; n < size; n++) {
-            for (int m = size; m >= 0; m++) {
-                if (grid[n][m]) {
-                    
+            int overhangs = 0;
+            if (grid[n][size - 1]) {
+                bottomList[overhangs][n] = size - 1;
+                overhangs++;
+            }
+            for (int m = size - 2; m >= 0; m--) {
+                if ((grid[n][m]) && (!grid[n][m + 1])) {
+                    bottomList[overhangs][n] = m;
+                    overhangs++;
                 }
             }
+            if (overhangs == 0) {
+                bottomList[overhangs][n] = -1;
+            }
         }
+    }
+    
+    public int[][] getBottoms() {
+        int[][] newBottoms = new int[grid.length][grid[0].length];
+        for (int n = 0; n < grid.length; n++) {
+            System.arraycopy(bottomList[n], 0, newBottoms[n], 0, bottomList[0].length);
+        }
+        return newBottoms;
     }
 }
