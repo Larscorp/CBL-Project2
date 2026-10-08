@@ -6,6 +6,10 @@ public class BoardPanel extends JPanel {
     private Board board;
     private final int CELL_SIZE = 25;
     
+    private Blocks currentPiece;
+    private int pieceRow;
+    private int pieceCol;
+    
     public BoardPanel (Board board) {
         this.board = board;
         
@@ -39,6 +43,48 @@ public class BoardPanel extends JPanel {
                 
             }
         }
+        
+        if (currentPiece != null) {
+            boolean[][] pieceGrid = currentPiece.getGrid();
+            int color = currentPiece.getColor();
+
+            for (int row = 0; row < pieceGrid.length; row++) {
+                for (int col = 0; col < pieceGrid[row].length; col++) {
+
+                    if (!pieceGrid[row][col]) {
+                        continue;
+                    }
+
+                    int boardRow = pieceRow + row;
+                    int boardCol = pieceCol + col;
+
+                    if (boardRow < 0 ||
+                        boardRow >= board.getBoardLength() ||
+                        boardCol < 0 ||
+                        boardCol >= board.getBoardWidth()) {
+                        continue;
+                    }
+
+                    g.setColor(getBlockColor(color));
+
+                    g.fillRect(
+                            boardCol * CELL_SIZE,
+                            boardRow * CELL_SIZE,
+                            CELL_SIZE,
+                            CELL_SIZE
+                    );
+
+                    g.setColor(Color.WHITE);
+
+                    g.drawRect(
+                            boardCol * CELL_SIZE,
+                            boardRow * CELL_SIZE,
+                            CELL_SIZE,
+                            CELL_SIZE
+                    );
+                }
+            }
+        }
     }
     
     private Color getBlockColor(int color) {
@@ -53,5 +99,13 @@ public class BoardPanel extends JPanel {
             case 8 -> Color.GRAY;
             default -> Color.BLACK;
         };
+    }
+    
+    public void setCurrentPiece(Blocks piece, int row, int col) {
+        this.currentPiece = piece;
+        this.pieceRow = row;
+        this.pieceCol = col;
+        
+        repaint();
     }
 } 

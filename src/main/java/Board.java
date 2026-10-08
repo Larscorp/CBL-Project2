@@ -3,6 +3,8 @@ public class Board {
     private int boardWidth = 10;
     private int[][] grid;
     
+    private int linesCleared;
+    
     public Board() {
         this.grid = new int[boardLength][boardWidth];
     }
@@ -25,6 +27,7 @@ public class Board {
                 deleteRows(n);
             }
         }
+        linesCleared += amount;
         return amount;
     }
     
@@ -54,6 +57,10 @@ public class Board {
     /*public boolean shouldPlace(int r, int c, Blocks currentBlock) {
         currentBlock[1][2] = true;
     }*/
+    
+    public int getLevel() {
+        return (linesCleared / 10) + 1;
+    }
     
     public int[][] getGrid() {
         return grid;
