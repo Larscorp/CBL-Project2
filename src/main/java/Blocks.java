@@ -182,4 +182,12 @@ public class Blocks {
         }
         return newBottoms;
     }
+    
+    public int getColor() {
+        return color;
+    }
+    
+    public boolean[][] getGrid() {
+        return grid;
+    }
 }

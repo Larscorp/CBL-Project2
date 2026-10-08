@@ -1,13 +1,18 @@
 import javax.swing.*;
 
 public class Tetris {
-      public static void main(String[] args) {
+    public static void main(String[] args) {
         Board board = new Board();
 
         Bag bag = new Bag();
         Blocks currentPiece = bag.getNextBlock();
+
         BoardPanel panel = new BoardPanel(board);
-        panel.setCurrentPiece(currentPiece, 0, 3);
+
+        int startRow = 0;
+        int startCol = 3;
+
+        panel.setCurrentPiece(currentPiece, startRow, startCol);
 
         JFrame frame = new JFrame("Tetris");
         frame.add(panel);
@@ -15,10 +20,23 @@ public class Tetris {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        
-        //debug for fallSpeed
-        Movement movement =  new Movement();
-        double speed = movement.fallSpeed();
-        System.out.println(speed);
-        }
+
+        Movement movement =
+                new Movement(board, currentPiece, startRow, startCol);
+
+        Timer timer = new Timer(10, e -> {
+            movement.movePieceDown();
+
+            // You'll need a getter for pieceRow/pieceCol
+            panel.setCurrentPiece(
+                    currentPiece,
+                    movement.getPieceRow(),
+                    movement.getPieceCol()
+            );
+
+            panel.repaint();
+        });
+
+        timer.start();
     }
+}

@@ -4,6 +4,17 @@ public class Movement {
     private int level;
     private long lastDropTime = System.nanoTime();
     
+    private int pieceRow;
+    private int pieceCol;
+    private Blocks currentPiece;
+    
+    public Movement(Board board, Blocks currentPiece, int startRow, int startCol) {
+        this.board = board;
+        this.currentPiece = currentPiece;
+        this.pieceRow = startRow;
+        this.pieceCol = startCol;
+    }
+    
     public double fallSpeed() {
         level = board.getLevel();
         return Math.pow((0.8 - ((level - 1) * 0.007)), level - 1);
@@ -18,16 +29,20 @@ public class Movement {
             return true;
         }
         return false;
-     } 
-    //determines whether or not the piece drops or not
+     } //determines whether or not the piece drops or not
     
     public void movePieceDown() {
         if (!gravityDrops()) {
             return;
         }
-        //checks if it can drop
-        
-        //moves coordinates downs
-            
-        }
+        pieceRow++;
+    }
+    
+    public int getPieceRow() {
+        return pieceRow;
+    }
+    
+    public int getPieceCol() {
+        return pieceCol;
+    }
 }
