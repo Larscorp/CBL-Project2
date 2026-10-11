@@ -1,7 +1,7 @@
 public class Board {
     private int boardLength = 30;
     private int boardWidth = 10;
-    private int[][] grid;
+    private int[][] grid; //row 0 is top of the board.
     
     private int linesCleared;
     

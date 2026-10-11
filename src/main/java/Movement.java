@@ -1,6 +1,6 @@
 public class Movement {
     
-    Board board = new Board();
+    private final Board board;
     private int level;
     private long lastDropTime = System.nanoTime();
     
@@ -31,11 +31,64 @@ public class Movement {
         return false;
      } //determines whether or not the piece drops or not
     
-    public void movePieceDown() {
-        if (!gravityDrops()) {
-            return;
+    private boolean canMove(boolean[][] shape, int row, int col) {
+        for (int r = 0; r < shape.length; r++) {
+            for (int c = 0; c < shape[r].length; c++) {
+                if (!shape[r][c]) continue;
+                if (board.hasColision(row + r + 1, col + c + 1)) return false; // +1: hasColision is 1-based
+            }
         }
-        pieceRow++;
+        return true;
+    }
+    
+    private boolean tryMove(int dRow, int dCol) {
+        if (canMove(currentPiece.getGrid(), pieceRow + dRow, pieceCol + dCol)) {
+            pieceRow += dRow;
+            pieceCol += dCol;
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean moveLeft() {
+        return tryMove(0, -1);
+    }
+    
+    public boolean moveRight() {
+        return tryMove (0, 1);
+    }
+    
+    public boolean softDrop() {
+        return tryMove(1, 0);
+    }
+    
+    public void hardDrop() {
+        while (tryMove (1, 0)){
+        }
+    }
+    
+    public boolean applyGravity() {
+        if (!gravityDrops()) return false;
+        return !tryMove(1, 0);
+    }
+    
+    public void lockPiece() {
+        currentPiece.placePiece(pieceRow, pieceCol, board);
+    }
+    
+    public void spawnNewPiece(Blocks piece, int row, int col) {
+        currentPiece = piece;
+        pieceRow = row;
+        pieceCol = col;
+        lastDropTime = System.nanoTime();
+    }
+    
+    public boolean fits() {
+        return canMove(currentPiece.getGrid(), pieceRow, pieceCol);
+    }
+    
+    public Blocks getCurrentPiece() {
+        return currentPiece;
     }
     
     public int getPieceRow() {

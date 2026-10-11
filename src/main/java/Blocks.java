@@ -66,9 +66,8 @@ public class Blocks {
     }, 1); // red
     
     public static Blocks O = new Blocks(new boolean[][] {
-        {true, true,  false},
-        {true, true,  false},
-        {false, false, false}
+        {true, true},
+        {true, true},
     }, 3); // yellow
 
     public static Blocks L = new Blocks(new boolean[][] {
@@ -146,7 +145,7 @@ public class Blocks {
         for (int n = 0; n < size; n++) {
             for (int m = 0; m < size; m++) {
                 if (grid[n][m]) { 
-                    board.fillSquare((r - n), (c + m), color);
+                    board.fillSquare(r + n + 1, c + m + 1, color);
                 } 
             }
         }
