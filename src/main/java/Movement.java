@@ -35,10 +35,14 @@ public class Movement {
         for (int r = 0; r < shape.length; r++) {
             for (int c = 0; c < shape[r].length; c++) {
                 if (!shape[r][c]) continue;
-                if (board.hasColision(row + r + 1, col + c + 1)) return false; // +1: hasColision is 1-based
+                if (board.hasColision(row + r + 1, col + c + 1)) return false;
             }
         }
         return true;
+    }
+    
+    public boolean canCurrentlyMove() {
+        return canMove(currentPiece.getGrid(), pieceRow, pieceCol);
     }
     
     private boolean tryMove(int dRow, int dCol) {
@@ -67,6 +71,34 @@ public class Movement {
         }
     }
     
+    public boolean rotateClockwise() {
+        currentPiece.simpleRotateBlockClockwise();
+        if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            return true;
+        }
+        currentPiece.simpleRotateBlockCounterClockwise();
+        return false;
+    }
+    
+    public boolean rotateCounterClockwise() {
+        currentPiece.simpleRotateBlockCounterClockwise();
+        if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            return true;
+        }
+        currentPiece.simpleRotateBlockClockwise();
+        return false;
+    }
+    
+    //debug
+    public boolean rotate180() {
+        currentPiece.simpleRotate180();
+        if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            return true;
+        }
+        currentPiece.simpleRotate180();
+        return false;
+    }
+    
     public boolean applyGravity() {
         if (!gravityDrops()) return false;
         return !tryMove(1, 0);
@@ -86,6 +118,10 @@ public class Movement {
     public boolean fits() {
         return canMove(currentPiece.getGrid(), pieceRow, pieceCol);
     }
+    
+    public boolean canSpawn(Blocks piece, int row, int col) {
+        return canMove(piece.getGrid(), row, col);
+    }    
     
     public Blocks getCurrentPiece() {
         return currentPiece;

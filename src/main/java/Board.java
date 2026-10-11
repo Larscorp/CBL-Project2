@@ -1,5 +1,5 @@
 public class Board {
-    private int boardLength = 30;
+    private int boardLength = 22;
     private int boardWidth = 10;
     private int[][] grid; //row 0 is top of the board.
     
@@ -15,10 +15,10 @@ public class Board {
     
     public int checkRows(int rowBegin, int rowEnd) {
         int amount = 0;
-        for (int n = rowBegin; n <= rowEnd; n++) {
+        for (int n = 0; n <= rowEnd; n++) {
             int check = 0;
             for (int m = 0; m < boardWidth; m++) {
-                if (grid[rowBegin][m] != 0) {
+                if (grid[n][m] != 0) {
                     check++;
                 }
             }
@@ -32,9 +32,10 @@ public class Board {
     }
     
     public void deleteRows(int r) {
-        for (int n = boardLength - 1; n > r; n--) {
-            System.arraycopy(grid[n], 0, grid[n - 1], 0, boardLength);
+        for (int n = r; n > 0; n--) {
+            System.arraycopy(grid[n - 1], 0, grid[n], 0, boardWidth);
         }
+        grid[0] = new int[boardWidth];
     }
     
     public void printBoard() {

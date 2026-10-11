@@ -4,7 +4,7 @@ import java.awt.*;
 public class BoardPanel extends JPanel {
     
     private Board board;
-    private final int CELL_SIZE = 25;
+    private final int CELL_SIZE = 30;
     
     private Blocks currentPiece;
     private int pieceRow;
@@ -37,10 +37,10 @@ public class BoardPanel extends JPanel {
                     g.setColor(getBlockColor(color));
                     g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
-                
+                if (i >= 2) {
                 g.setColor(Color.DARK_GRAY);
                 g.drawRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-                
+                }
             }
         }
         

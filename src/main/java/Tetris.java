@@ -9,20 +9,27 @@ public class Tetris {
     private static Movement movement;
     private static BoardPanel panel;
     private static Timer timer;
-
+    private static GameMechanics gameMechanics;
+    private static boolean gameOver = false;
+    
     public static void main(String[] args) {
         board = new Board();
         bag = new Bag();
         panel = new BoardPanel(board);
         movement = new Movement(board, bag.getNextBlock(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
+        gameMechanics = new GameMechanics(board);
         
         controls.bind("LEFT",  () -> movement.moveLeft());
         controls.bind("RIGHT", () -> movement.moveRight());
         controls.bind("DOWN",  () -> movement.softDrop());
-        controls.bind("SPACE", () -> {movement.hardDrop(); lockAndSpawn();
-        });
-
+        controls.bind("UP",    () -> movement.rotateClockwise());
+        controls.bind("Z",     () -> movement.rotateCounterClockwise());
+        controls.bind("U",     () -> movement.rotate180());
+        controls.bind("SPACE", () -> {
+                movement.hardDrop(); lockAndSpawn();
+                });
+        
         JFrame frame = new JFrame("Tetris");
         frame.add(panel);
         frame.pack();
@@ -41,15 +48,24 @@ public class Tetris {
         timer.start();
     }
 
-    private static void lockAndSpawn() {
+    private static void lockAndSpawn() {        
         movement.lockPiece();
-        movement.spawnNewPiece(bag.getNextBlock(), START_ROW, START_COL);
+        gameMechanics.clearLines();
+        Blocks next = bag.getNextBlock();
+        
+        if (!movement.canSpawn(next, START_ROW, START_COL)) {
+            gameOver = true;
+            panel.setCurrentPiece(null, 0, 0);
+            board.printBoard(); //debug
+            timer.stop();
+            System.out.println("Game over loser");
+            return;
+        }
+        movement.spawnNewPiece(next, START_ROW, START_COL);
     }
-
+    
     private static void refresh() {
-        panel.setCurrentPiece(
-                movement.getCurrentPiece(),
-                movement.getPieceRow(),
-                movement.getPieceCol());
+        panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
+            movement.getPieceCol());
     }
 }
