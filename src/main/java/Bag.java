@@ -8,6 +8,7 @@ public class Bag {
     
     public Bag() {
         refill();
+        fillQueue(4);
     }
     public void refill() {
         
