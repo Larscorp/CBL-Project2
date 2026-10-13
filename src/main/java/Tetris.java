@@ -9,7 +9,6 @@ public class Tetris {
     private static Movement movement;
     private static BoardPanel panel;
     private static Timer timer;
-    private static GameMechanics gameMechanics;
     private static boolean gameOver = false;
     public static boolean canHold;
     
@@ -19,7 +18,6 @@ public class Tetris {
         panel = new BoardPanel(board);
         movement = new Movement(board, bag, bag.getNextBlock(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
-        gameMechanics = new GameMechanics(board);
         
         controls.bind("LEFT",  () -> movement.moveLeft());
         controls.bind("RIGHT", () -> movement.moveRight());
@@ -52,7 +50,7 @@ public class Tetris {
 
     private static void lockAndSpawn() {        
         movement.lockPiece();
-        gameMechanics.clearLines();
+        movement.clearLines();
         Blocks next = bag.getNextBlock();
         movement.returnHold();
         

@@ -137,6 +137,10 @@ public class Movement {
         
     }
     
+    public void clearLines() {
+        board.checkRows(0, board.getBoardLength() - 1);
+    }    
+    
     public void returnHold() {
         canHold = true;
     }
