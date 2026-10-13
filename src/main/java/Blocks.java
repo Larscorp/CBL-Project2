@@ -83,6 +83,12 @@ public class Blocks {
         {false, false, false, false}
     }, 5); // light blue
     
+    public static Blocks Empty = new Blocks(new boolean[][] {
+        {false, false, false},
+        {false, false, false},
+        {false, false, false}
+    }, 5);
+    
     public static Blocks debugT = new Blocks(new boolean[][] {
         {false,  true,  true,  true,  true,  true,  true,  false  },
         {true,  true,  true,  true,  true,  true,  true,  true  },
@@ -132,6 +138,7 @@ public class Blocks {
     
     public void printPiece() { // debug method
         int size = grid[0].length;
+        System.out.println("Printing piece:");
         for (int n = 0; n < size; n++) {
             for (int m = 0; m < size; m++) { 
                 System.out.print(grid[n][m] + " ");
