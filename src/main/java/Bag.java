@@ -4,6 +4,7 @@ import java.util.Collections;
 public class Bag {
 
     private ArrayList<String> blocks = new ArrayList<>();
+    private Blocks[] queue = new Blocks[4];
     
     public Bag() {
         refill();
@@ -17,11 +18,12 @@ public class Bag {
         blocks.add("L");
         blocks.add("S");
         blocks.add("Z");
+        //blocks.add("debugT");
        
         Collections.shuffle(blocks);
     }
     
-    public Blocks getNextBlock() {
+    private Blocks getNextBlock() {
         if (blocks.isEmpty()) {
             refill();
         }
@@ -35,8 +37,28 @@ public class Bag {
             case "L" -> new Blocks(Blocks.L, 2);
             case "S" -> new Blocks(Blocks.S, 4);
             case "Z" -> new Blocks(Blocks.Z, 1);
+            //case "debugT" -> new Blocks(Blocks.debugT, 7);
             default -> null;
         };
+    }
+    
+    public void fillQueue(int n) {
+        for (int m = 0; m < n; m++) {
+            queue[4 - n + m] = getNextBlock();
+        }
+    }
+    
+    public Blocks getNextBlockQueue() {
+        Blocks tempPiece = queue[0];
+        for (int m = 0; m < 3; m++) {
+            queue[m] = queue[m + 1];
+        }
+        fillQueue(1);
+        return tempPiece;
+    }
+    
+    public Blocks checkQueue(int n) {
+        return queue[n - 1];
     }
 }
     
