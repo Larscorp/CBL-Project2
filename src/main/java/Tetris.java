@@ -16,7 +16,7 @@ public class Tetris {
         board = new Board();
         bag = new Bag();
         panel = new BoardPanel(board);
-        movement = new Movement(board, bag, bag.getNextBlock(), START_ROW, START_COL);
+        movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
         
         controls.bind("LEFT",  () -> movement.moveLeft());
@@ -51,7 +51,7 @@ public class Tetris {
     private static void lockAndSpawn() {        
         movement.lockPiece();
         movement.clearLines();
-        Blocks next = bag.getNextBlock();
+        Blocks next = bag.getNextBlockQueue();
         movement.returnHold();
         
         if (!movement.canSpawn(next, START_ROW, START_COL)) {

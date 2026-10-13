@@ -125,7 +125,7 @@ public class Movement {
         
         if (holdPiece == Blocks.Empty) {
             holdPiece = currentPiece;
-            spawnNewPiece(bag.getNextBlock(), Tetris.START_ROW, Tetris.START_COL);
+            spawnNewPiece(bag.getNextBlockQueue(), Tetris.START_ROW, Tetris.START_COL);
         } else {
             Blocks tempPiece = currentPiece;
             currentPiece = holdPiece;
