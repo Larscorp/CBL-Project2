@@ -1,8 +1,8 @@
 import javax.swing.*;
 
 public class Tetris {
-    private static final int START_ROW = 0;
-    private static final int START_COL = 3;
+    public static final int START_ROW = 0;
+    public static final int START_COL = 3;
 
     private static Board board;
     private static Bag bag;
@@ -11,12 +11,13 @@ public class Tetris {
     private static Timer timer;
     private static GameMechanics gameMechanics;
     private static boolean gameOver = false;
+    public static boolean canHold;
     
     public static void main(String[] args) {
         board = new Board();
         bag = new Bag();
         panel = new BoardPanel(board);
-        movement = new Movement(board, bag.getNextBlock(), START_ROW, START_COL);
+        movement = new Movement(board, bag, bag.getNextBlock(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
         gameMechanics = new GameMechanics(board);
         
@@ -26,6 +27,7 @@ public class Tetris {
         controls.bind("UP",    () -> movement.rotateClockwise());
         controls.bind("Z",     () -> movement.rotateCounterClockwise());
         controls.bind("U",     () -> movement.rotate180());
+        controls.bind("C",     () -> movement.putHold());
         controls.bind("SPACE", () -> {
                 movement.hardDrop(); lockAndSpawn();
                 });
@@ -52,6 +54,7 @@ public class Tetris {
         movement.lockPiece();
         gameMechanics.clearLines();
         Blocks next = bag.getNextBlock();
+        movement.returnHold();
         
         if (!movement.canSpawn(next, START_ROW, START_COL)) {
             gameOver = true;

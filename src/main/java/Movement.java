@@ -3,13 +3,17 @@ public class Movement {
     private final Board board;
     private int level;
     private long lastDropTime = System.nanoTime();
-    
+    private final Bag bag;
+
     private int pieceRow;
     private int pieceCol;
     private Blocks currentPiece;
+    private Blocks holdPiece = Blocks.Empty;
+    private boolean canHold = true;
     
-    public Movement(Board board, Blocks currentPiece, int startRow, int startCol) {
+    public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
+        this.bag = bag;
         this.currentPiece = currentPiece;
         this.pieceRow = startRow;
         this.pieceCol = startCol;
@@ -113,6 +117,28 @@ public class Movement {
         pieceRow = row;
         pieceCol = col;
         lastDropTime = System.nanoTime();
+    }
+    
+    public void putHold() {
+        if (!canHold) return;
+        canHold = false;
+        
+        if (holdPiece == Blocks.Empty) {
+            holdPiece = currentPiece;
+            spawnNewPiece(bag.getNextBlock(), Tetris.START_ROW, Tetris.START_COL);
+        } else {
+            Blocks tempPiece = currentPiece;
+            currentPiece = holdPiece;
+            holdPiece = tempPiece;
+            pieceRow = Tetris.START_ROW;
+            pieceCol = Tetris.START_COL;
+            lastDropTime = System.nanoTime();
+        }
+        
+    }
+    
+    public void returnHold() {
+        canHold = true;
     }
     
     public boolean fits() {
