@@ -13,6 +13,9 @@ public class Tetris {
     public static boolean canHold;
     private static GameMechanics gameMechanics;
     private static int score = 0;
+    private static RandomizeObjectives objectives;
+    private static Objective currentObjective;
+    private static long objectiveDeadline;
     
     public static void main(String[] args) {
         board = new Board();
@@ -21,6 +24,8 @@ public class Tetris {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
         gameMechanics = new GameMechanics(board);
+        objectives = new RandomizeObjectives();
+        newObjective();
         
         controls.bind("LEFT",  () -> movement.moveLeft());
         controls.bind("RIGHT", () -> movement.moveRight());
@@ -46,6 +51,9 @@ public class Tetris {
             if (movement.applyGravity()) {
                 lockAndSpawn();
             }
+            if (System.nanoTime() - objectiveDeadline >= 0) {
+                newObjective();
+            }   
             refresh();
         });
         timer.start();
@@ -67,6 +75,12 @@ public class Tetris {
         }
         movement.spawnNewPiece(next, START_ROW, START_COL);
     }
+    
+    private static void newObjective() {
+        currentObjective = objectives.getNextObjective();
+        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
+        System.out.println("New objective: " + currentObjective.getDescription());
+}
     
     private static void refresh() {
         panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),

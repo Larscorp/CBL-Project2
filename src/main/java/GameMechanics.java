@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class GameMechanics {
     private final Board board;
-    private int score;
+    private static int score;
      
     public GameMechanics(Board board) {
         this.board = board;
@@ -21,13 +21,7 @@ public class GameMechanics {
         return score;
     }
         
-    public int getScore() {
+    public static int getScore() {
         return score;
-    }
-    
-    private ArrayList<String> objectives = new ArrayList<>();
-    
-    public void refillObjective() {
-        objectives.add("Goon 5 times");
     }
 }
