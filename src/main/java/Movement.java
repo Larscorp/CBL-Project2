@@ -10,6 +10,11 @@ public class Movement {
     private Blocks currentPiece;
     private Blocks holdPiece = Blocks.Empty;
     private boolean canHold = true;
+    private static final long LOCK_DELAY =1_000_000_000L; //lock delay in nanoseconds
+    private static final int MAX_RESETS = 5; //max amount of stall time
+    private boolean grounded = false;   
+    private long lockStart;             
+    private int lockResets = 0; //how many times moved on the ground
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -64,15 +69,27 @@ public class Movement {
     }
     
     public boolean moveLeft() {
-        return tryMove(0, -1);
+        boolean moved = tryMove(0, -1);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public boolean moveRight() {
-        return tryMove(0, 1);
+        boolean moved = tryMove(0, 1);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public boolean softDrop() {
-        return tryMove(1, 0);
+        boolean moved = tryMove(1, 0);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public void hardDrop() {
@@ -108,11 +125,31 @@ public class Movement {
         return false;
     }
     
+    private boolean isGrounded() {
+        return !canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol);
+    }
+    
     public boolean applyGravity() {
-        if (!gravityDrops()) {
-            return false;
+        if (isGrounded()) {
+            long now = System.nanoTime();
+            if (!grounded) {
+                grounded = true;
+                lockStart = now;
+            }
+        return now - lockStart >= LOCK_DELAY;    
         }
-        return !tryMove(1, 0);
+        grounded = false;
+        if (gravityDrops()) {
+            tryMove(1,0);
+        }
+        return false;
+    }
+    
+    private void resetLockTimer() {
+        if (grounded && lockResets < MAX_RESETS) {
+            lockStart = System.nanoTime();
+            lockResets++;
+        }
     }
     
     public void lockPiece() {
@@ -124,6 +161,8 @@ public class Movement {
         pieceRow = row;
         pieceCol = col;
         lastDropTime = System.nanoTime();
+        grounded = false;
+        lockResets = 0;
     }
     
     public void putHold() {

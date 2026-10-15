@@ -64,8 +64,6 @@ public class BoardPanel extends JPanel {
                         continue;
                     }
 
-                    g.setColor(getBlockColor(color));
-
                     Color c = getBlockColor(color);
                     g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 80));
                     g.fillRect(boardCol * CELL_SIZE, boardRow * CELL_SIZE, CELL_SIZE, CELL_SIZE);
