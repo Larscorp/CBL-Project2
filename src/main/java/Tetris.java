@@ -83,6 +83,7 @@ public class Tetris {
 }
     
     private static void refresh() {
+        panel.setGhostRow(movement.getGhostRow());
         panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
             movement.getPieceCol());
     }

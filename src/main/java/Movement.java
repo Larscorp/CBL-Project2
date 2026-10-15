@@ -145,6 +145,18 @@ public class Movement {
         }
         
     }
+    
+    public int getGhostRow() {
+        if (currentPiece == null) {
+            return pieceRow;
+        }
+        boolean[][] shape = currentPiece.getGrid();
+        int row = pieceRow;
+        while (canMove(shape, row + 1, pieceCol)) {
+            row++;
+        }
+        return row;
+    }
         
     public void returnHold() {
         canHold = true;

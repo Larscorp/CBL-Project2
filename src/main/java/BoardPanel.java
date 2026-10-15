@@ -9,6 +9,7 @@ public class BoardPanel extends JPanel {
     private Blocks currentPiece;
     private int pieceRow;
     private int pieceCol;
+    private int ghostRow;
     
     public BoardPanel(Board board) {
         this.board = board;
@@ -47,7 +48,30 @@ public class BoardPanel extends JPanel {
         if (currentPiece != null) {
             boolean[][] pieceGrid = currentPiece.getGrid();
             int color = currentPiece.getColor();
+            
+            for (int row = 0; row < pieceGrid.length; row++) {
+                for (int col = 0; col < pieceGrid[row].length; col++) {
 
+                    if (!pieceGrid[row][col]) {
+                        continue;
+                    }
+
+                    int boardRow = ghostRow + row;
+                    int boardCol = pieceCol + col;
+
+                    if (boardRow < 0 || boardRow >= board.getBoardLength() || boardCol < 0
+                        || boardCol >= board.getBoardWidth()) {
+                        continue;
+                    }
+
+                    g.setColor(getBlockColor(color));
+
+                    Color c = getBlockColor(color);
+                    g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 80));
+                    g.fillRect(boardCol * CELL_SIZE, boardRow * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                }
+            }  
+        
             for (int row = 0; row < pieceGrid.length; row++) {
                 for (int col = 0; col < pieceGrid[row].length; col++) {
 
@@ -59,7 +83,7 @@ public class BoardPanel extends JPanel {
                     int boardCol = pieceCol + col;
 
                     if (boardRow < 0 || boardRow >= board.getBoardLength() || boardCol < 0
-                        || boardCol >= board.getBoardWidth()) {
+                    || boardCol >= board.getBoardWidth()) {
                         continue;
                     }
 
@@ -74,14 +98,14 @@ public class BoardPanel extends JPanel {
                     g.setColor(Color.WHITE);
 
                     g.drawRect(boardCol * CELL_SIZE,
-                            boardRow * CELL_SIZE,
-                            CELL_SIZE,
-                            CELL_SIZE
+                        boardRow * CELL_SIZE,
+                        CELL_SIZE,
+                        CELL_SIZE
                     );
                 }
             }
         }
-    }
+}
     
     private Color getBlockColor(int color) {
         return switch (color) {
@@ -104,5 +128,9 @@ public class BoardPanel extends JPanel {
         this.pieceCol = col;
         
         repaint();
+    }
+    
+    public void setGhostRow(int row) {
+        this.ghostRow = row;
     }
 } 
