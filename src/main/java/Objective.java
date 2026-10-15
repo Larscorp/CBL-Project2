@@ -1,3 +1,7 @@
+//change this in regard to adding lambda expression so that every DEBUG
+//seperate objective has its own trigger attached to it. DEBUG
+//also use this for buffs and debuffs DEBUG
+
 public class Objective {
     private final String description;
     private final int target;

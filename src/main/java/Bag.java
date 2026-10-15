@@ -10,6 +10,7 @@ public class Bag {
         refill();
         fillQueue(4);
     }
+    
     public void refill() {
         
         blocks.add("I");

@@ -1,16 +1,16 @@
-import javax.swing.*;
-import java.awt.*;       
+import java.awt.*;
+import javax.swing.*;    
         
 public class BoardPanel extends JPanel {
     
     private Board board;
-    private final int CELL_SIZE = 30;
+    private static final int CELL_SIZE = 30;
     
     private Blocks currentPiece;
     private int pieceRow;
     private int pieceCol;
     
-    public BoardPanel (Board board) {
+    public BoardPanel(Board board) {
         this.board = board;
         
         setPreferredSize(new Dimension(
@@ -33,13 +33,13 @@ public class BoardPanel extends JPanel {
                 if (color == 0) {
                     g.setColor(Color.BLACK);
                     g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE); 
-               } else {
+                } else {
                     g.setColor(getBlockColor(color));
                     g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
                 if (i >= 2) {
-                g.setColor(Color.DARK_GRAY);
-                g.drawRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    g.setColor(Color.DARK_GRAY);
+                    g.drawRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
                 }
             }
         }
@@ -58,17 +58,14 @@ public class BoardPanel extends JPanel {
                     int boardRow = pieceRow + row;
                     int boardCol = pieceCol + col;
 
-                    if (boardRow < 0 ||
-                        boardRow >= board.getBoardLength() ||
-                        boardCol < 0 ||
-                        boardCol >= board.getBoardWidth()) {
+                    if (boardRow < 0 || boardRow >= board.getBoardLength() || boardCol < 0
+                        || boardCol >= board.getBoardWidth()) {
                         continue;
                     }
 
                     g.setColor(getBlockColor(color));
 
-                    g.fillRect(
-                            boardCol * CELL_SIZE,
+                    g.fillRect(boardCol * CELL_SIZE,
                             boardRow * CELL_SIZE,
                             CELL_SIZE,
                             CELL_SIZE
@@ -76,8 +73,7 @@ public class BoardPanel extends JPanel {
 
                     g.setColor(Color.WHITE);
 
-                    g.drawRect(
-                            boardCol * CELL_SIZE,
+                    g.drawRect(boardCol * CELL_SIZE,
                             boardRow * CELL_SIZE,
                             CELL_SIZE,
                             CELL_SIZE
@@ -97,6 +93,7 @@ public class BoardPanel extends JPanel {
             case 6 -> Color.BLUE;
             case 7 -> Color.MAGENTA;
             case 8 -> Color.GRAY;
+            case 9 -> Color.lightGray;
             default -> Color.BLACK;
         };
     }

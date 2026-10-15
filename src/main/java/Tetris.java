@@ -61,7 +61,7 @@ public class Tetris {
 
     private static void lockAndSpawn() {        
         movement.lockPiece();
-        System.out.println(gameMechanics.ClearLinesAndScore()); //print is debug
+        System.out.println(gameMechanics.clearLinesAndScore()); //print is debug
         Blocks next = bag.getNextBlockQueue();
         movement.returnHold();
         

@@ -1,6 +1,6 @@
+import java.awt.*;
 import javax.swing.*;
-import java.awt.*;       
-        
+
 public class TetrisGUI extends JPanel {
     private BoardPanel boardPanel;
     

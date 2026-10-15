@@ -24,6 +24,7 @@ public class Movement {
         return Math.pow((0.8 - ((level - 1) * 0.007)), level - 1);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
+    
     public boolean gravityDrops() {
         long now = System.nanoTime();
         long timeElapsed = now - lastDropTime;
@@ -33,13 +34,17 @@ public class Movement {
             return true;
         }
         return false;
-     } //determines whether or not the piece drops or not
+    } //determines whether or not the piece drops or not
     
     private boolean canMove(boolean[][] shape, int row, int col) {
         for (int r = 0; r < shape.length; r++) {
             for (int c = 0; c < shape[r].length; c++) {
-                if (!shape[r][c]) continue;
-                if (board.hasColision(row + r + 1, col + c + 1)) return false;
+                if (!shape[r][c]) {
+                    continue;
+                }
+                if (board.hasColision(row + r + 1, col + c + 1)) {
+                    return false;
+                }
             }
         }
         return true;
@@ -63,7 +68,7 @@ public class Movement {
     }
     
     public boolean moveRight() {
-        return tryMove (0, 1);
+        return tryMove(0, 1);
     }
     
     public boolean softDrop() {
@@ -71,7 +76,7 @@ public class Movement {
     }
     
     public void hardDrop() {
-        while (tryMove (1, 0)){
+        while (tryMove(1, 0)){
         }
     }
     
@@ -104,7 +109,9 @@ public class Movement {
     }
     
     public boolean applyGravity() {
-        if (!gravityDrops()) return false;
+        if (!gravityDrops()) {
+            return false;
+        }
         return !tryMove(1, 0);
     }
     
@@ -120,7 +127,9 @@ public class Movement {
     }
     
     public void putHold() {
-        if (!canHold) return;
+        if (!canHold) {
+            return;
+        }
         canHold = false;
         
         if (holdPiece == Blocks.Empty) {
