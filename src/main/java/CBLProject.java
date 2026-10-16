@@ -461,7 +461,7 @@ public class CBLProject extends javax.swing.JFrame {
         controls.bind("U",     () -> movement.rotate180());
         controls.bind("C",     () -> movement.putHold());
         controls.bind("SPACE", () -> {
-                movement.hardDrop(); ;
+                movement.hardDrop(); lockAndSpawn();
                 });
         refresh();
         
@@ -487,14 +487,16 @@ public class CBLProject extends javax.swing.JFrame {
         for (int n = 0; n < 5; n++) {
             drawnQueue[n].setQueuePiece(queue[n]);
         }
-        if (!movement.canSpawn(next, START_ROW, START_COL)) {
+        if (!movement.canSpawn(next, 0, (((board.getBoardWidth() + 1) / 2) - 
+                ((next.getSize() + 1) / 2)))) {
             gameOver = true;
             panel.setCurrentPiece(null, 0, 0);
             timer.stop();
             System.out.println("Game over loser");
             return;
         }
-        movement.spawnNewPiece(next, START_ROW, START_COL);
+        movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
+                ((next.getSize() + 1) / 2)));
     }
     
     private static void newObjective() {
@@ -505,6 +507,7 @@ public class CBLProject extends javax.swing.JFrame {
 }
     
     private static void refresh() {
+        panel.setGhostRow(movement.getGhostRow());
         panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
             movement.getPieceCol());
     }
