@@ -224,4 +224,8 @@ public class Movement {
     public int getPieceCol() {
         return pieceCol;
     }
+    
+    public Blocks getHoldPiece() {
+        return holdPiece;
+    }
 }
