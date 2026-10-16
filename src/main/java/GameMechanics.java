@@ -3,9 +3,11 @@ import java.util.ArrayList;
 public class GameMechanics {
     private final Board board;
     private static int score;
+    private CBLProject frame;
      
-    public GameMechanics(Board board) {
+    public GameMechanics(Board board, CBLProject frame) {
         this.board = board;
+        this.frame = frame;
     }
      
     public int ClearLinesAndScore() {
@@ -18,6 +20,8 @@ public class GameMechanics {
             case 4 -> 800 * level;
             default -> 0;
         };
+        frame.setScoreText(score);
+        frame.setLevelText(board.getLevel());
         return score;
     }
         

@@ -196,4 +196,8 @@ public class Blocks {
     public boolean[][] getGrid() {
         return grid;
     }
+    
+    public int getSize() {
+        return grid.length;
+    }
 }

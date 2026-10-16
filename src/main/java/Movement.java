@@ -125,13 +125,13 @@ public class Movement {
         
         if (holdPiece == Blocks.Empty) {
             holdPiece = currentPiece;
-            spawnNewPiece(bag.getNextBlockQueue(), Tetris.START_ROW, Tetris.START_COL);
+            //spawnNewPiece(bag.getNextBlockQueue(), Tetris.START_ROW, Tetris.START_COL);
         } else {
             Blocks tempPiece = currentPiece;
             currentPiece = holdPiece;
             holdPiece = tempPiece;
-            pieceRow = Tetris.START_ROW;
-            pieceCol = Tetris.START_COL;
+            //pieceRow = Tetris.START_ROW;
+            //pieceCol = Tetris.START_COL;
             lastDropTime = System.nanoTime();
         }
         

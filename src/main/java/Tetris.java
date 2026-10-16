@@ -1,7 +1,7 @@
-import javax.swing.*;
+/*import javax.swing.*;
 
 public class Tetris {
-    public static final int START_ROW = 0;
+    /*public static final int START_ROW = 0;
     public static final int START_COL = 3;
 
     private static Board board;
@@ -15,8 +15,7 @@ public class Tetris {
     private static int score = 0;
     private static RandomizeObjectives objectives;
     private static Objective currentObjective;
-    private static long objectiveDeadline;
-    
+    private static long objectiveDeadline; 
     public static void main(String[] args) {
         board = new Board();
         bag = new Bag();
@@ -86,4 +85,4 @@ public class Tetris {
         panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
             movement.getPieceCol());
     }
-}
+}*/
