@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,8 +10,8 @@ public class Bag {
     public Bag() {
         refill();
         fillQueue(5);
-        
     }
+	
     public void refill() {
         
         blocks.add("I");
@@ -68,4 +69,3 @@ public class Bag {
         return queue;
     }
 }
-    

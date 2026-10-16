@@ -1,3 +1,4 @@
+
 public class Movement {
     
     private final Board board;
@@ -10,6 +11,11 @@ public class Movement {
     private Blocks currentPiece;
     private Blocks holdPiece = Blocks.Empty;
     private boolean canHold = true;
+    private static final long LOCK_DELAY =1_000_000_000L; //lock delay in nanoseconds
+    private static final int MAX_RESETS = 5; //max amount of stall time
+    private boolean grounded = false;   
+    private long lockStart;             
+    private int lockResets = 0; //how many times moved on the ground
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -24,6 +30,7 @@ public class Movement {
         return Math.pow((0.8 - ((level - 1) * 0.007)), level - 1);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
+    
     public boolean gravityDrops() {
         long now = System.nanoTime();
         long timeElapsed = now - lastDropTime;
@@ -33,13 +40,17 @@ public class Movement {
             return true;
         }
         return false;
-     } //determines whether or not the piece drops or not
+    } //determines whether or not the piece drops or not
     
     private boolean canMove(boolean[][] shape, int row, int col) {
         for (int r = 0; r < shape.length; r++) {
             for (int c = 0; c < shape[r].length; c++) {
-                if (!shape[r][c]) continue;
-                if (board.hasColision(row + r + 1, col + c + 1)) return false;
+                if (!shape[r][c]) {
+                    continue;
+                }
+                if (board.hasColision(row + r + 1, col + c + 1)) {
+                    return false;
+                }
             }
         }
         return true;
@@ -59,19 +70,31 @@ public class Movement {
     }
     
     public boolean moveLeft() {
-        return tryMove(0, -1);
+        boolean moved = tryMove(0, -1);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public boolean moveRight() {
-        return tryMove (0, 1);
+        boolean moved = tryMove(0, 1);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public boolean softDrop() {
-        return tryMove(1, 0);
+        boolean moved = tryMove(1, 0);
+        if (moved) {
+            resetLockTimer();
+        }
+        return moved;
     }
     
     public void hardDrop() {
-        while (tryMove (1, 0)){
+        while (tryMove(1, 0)){
         }
     }
     
@@ -103,9 +126,31 @@ public class Movement {
         return false;
     }
     
+    private boolean isGrounded() {
+        return !canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol);
+    }
+    
     public boolean applyGravity() {
-        if (!gravityDrops()) return false;
-        return !tryMove(1, 0);
+        if (isGrounded()) {
+            long now = System.nanoTime();
+            if (!grounded) {
+                grounded = true;
+                lockStart = now;
+            }
+        return now - lockStart >= LOCK_DELAY;    
+        }
+        grounded = false;
+        if (gravityDrops()) {
+            tryMove(1,0);
+        }
+        return false;
+    }
+    
+    private void resetLockTimer() {
+        if (grounded && lockResets < MAX_RESETS) {
+            lockStart = System.nanoTime();
+            lockResets++;
+        }
     }
     
     public void lockPiece() {
@@ -117,24 +162,40 @@ public class Movement {
         pieceRow = row;
         pieceCol = col;
         lastDropTime = System.nanoTime();
+        grounded = false;
+        lockResets = 0;
     }
     
     public void putHold() {
-        if (!canHold) return;
+        if (!canHold) {
+            return;
+        }
         canHold = false;
         
         if (holdPiece == Blocks.Empty) {
             holdPiece = currentPiece;
-            //spawnNewPiece(bag.getNextBlockQueue(), Tetris.START_ROW, Tetris.START_COL);
+            spawnNewPiece(bag.getNextBlockQueue(), Tetris.START_ROW, Tetris.START_COL);
         } else {
             Blocks tempPiece = currentPiece;
             currentPiece = holdPiece;
             holdPiece = tempPiece;
-            //pieceRow = Tetris.START_ROW;
-            //pieceCol = Tetris.START_COL;
+            pieceRow = Tetris.START_ROW;
+            pieceCol = Tetris.START_COL;
             lastDropTime = System.nanoTime();
         }
         
+    }
+    
+    public int getGhostRow() {
+        if (currentPiece == null) {
+            return pieceRow;
+        }
+        boolean[][] shape = currentPiece.getGrid();
+        int row = pieceRow;
+        while (canMove(shape, row + 1, pieceCol)) {
+            row++;
+        }
+        return row;
     }
         
     public void returnHold() {

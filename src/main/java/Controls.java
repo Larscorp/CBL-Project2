@@ -1,5 +1,5 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
+import javax.swing.*;
 
 public class Controls {
     private final JComponent target;
