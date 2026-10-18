@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class DrawQueue extends JPanel {
     private Blocks queuePiece;
-    private final int panelSize = 40;
+    private final int panelSize = 60;
     
     public DrawQueue() {
         setBackground(Color.BLACK);

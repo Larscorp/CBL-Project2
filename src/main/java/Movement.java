@@ -228,4 +228,8 @@ public class Movement {
     public Blocks getHoldPiece() {
         return holdPiece;
     }
+    
+    public boolean usedHold() {
+        return !canHold; 
+    }
 }

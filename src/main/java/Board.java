@@ -74,4 +74,8 @@ public class Board {
     public int getBoardLength() {
         return boardLength;
     }
+    
+    public int getLinesCleared() {
+        return linesCleared; 
+    }
 }

@@ -1,6 +1,3 @@
-
-import java.util.ArrayList;
-
 public class GameMechanics {
     private final Board board;
     private static int score;
@@ -11,7 +8,7 @@ public class GameMechanics {
         this.frame = frame;
     }
      
-    public int ClearLinesAndScore() {
+    public int clearLinesAndScore() {
         int cleared = board.checkRows(0, board.getBoardLength() - 1);
         int level = board.getLevel();
         score += switch (cleared) {

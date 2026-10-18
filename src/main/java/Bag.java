@@ -21,7 +21,13 @@ public class Bag {
         blocks.add("L");
         blocks.add("S");
         blocks.add("Z");
-        
+        blocks.add("I");
+        blocks.add("O");
+        blocks.add("T");
+        blocks.add("J");
+        blocks.add("L");
+        blocks.add("S");
+        blocks.add("Z");
         //blocks.add("debugT");
        
         Collections.shuffle(blocks);

@@ -43,7 +43,9 @@ public class CBLProject extends javax.swing.JFrame {
         drawnQueue[4].setQueuePiece(null);
         drawHoldPiece = drawQueue6;
         drawHoldPiece.setQueuePiece(null);
+        setResizable(false);
         pack();
+        setLocationRelativeTo(null);
     }
     
     public int getGhostSpawnX() {
@@ -353,12 +355,12 @@ public class CBLProject extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(boardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -471,25 +473,37 @@ public class CBLProject extends javax.swing.JFrame {
                 });
         controls.bind("SPACE", () -> {
                 movement.hardDrop(); 
-                lockAndSpawn();
+                lockAndSpawn(true);
                 });
         refresh();
         
         timer = new Timer(10, e -> {
             if (movement.applyGravity()) {
-                lockAndSpawn();
+                lockAndSpawn(false);
             }
             if (System.nanoTime() - objectiveDeadline >= 0) {
-                newObjective();
-            }   
+                objectiveFailed();
+            }
             refresh();
         });
         timer.start();
     }
     
-    private static void lockAndSpawn() {        
+    private static void lockAndSpawn(boolean hardDropped) {        
         movement.lockPiece();
-        System.out.println(gameMechanics.ClearLinesAndScore()); //print is debug
+        
+        int linesBefore = board.getLinesCleared();
+        int scoreBefore = GameMechanics.getScore();
+        gameMechanics.clearLinesAndScore();
+        LockEvent event = new LockEvent(board.getLinesCleared() - linesBefore,
+                GameMechanics.getScore() - scoreBefore, movement.usedHold(), hardDropped);
+        currentObjective.onLock(event);
+        if (currentObjective.isComplete()) {
+            objectiveCompleted();
+        } else {
+            showObjective();
+        }
+        
         Blocks next = bag.getNextBlockQueue();
         movement.returnHold();
         queue = bag.getQueue();
@@ -502,24 +516,40 @@ public class CBLProject extends javax.swing.JFrame {
             gameOver = true;
             panel.setCurrentPiece(null, 0, 0);
             timer.stop();
-            System.out.println("Game over loser");
+            System.out.println("Game over loser"); //debug, needs to be added to gui
             return;
         }
         movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
                 ((next.getSize() + 1) / 2)));
     }
     
-    private static void newObjective() {
-        currentObjective = objectives.getNextObjective();
-        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
-        System.out.println("New objective: " + currentObjective.getDescription());
-        frame.setObjectiveText(currentObjective.getDescription());
-}
-    
     private static void refresh() {
         panel.setGhostRow(movement.getGhostRow());
         panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
             movement.getPieceCol());
+    }
+    
+    private static void newObjective() {
+        currentObjective = objectives.getNextObjective();
+        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
+        showObjective();
+    }
+    
+    private static void objectiveCompleted() {
+        System.out.println("Objective Completed!");
+        //give buff
+        newObjective();
+    }
+    
+    private static void objectiveFailed() {
+        System.out.println("Objective failed");
+        //give debuff
+        newObjective();
+    }
+    
+    private static void showObjective() {
+        frame.setObjectiveText(currentObjective.getDescription() + " "
+        + currentObjective.getProgress() + "/" + currentObjective.getTarget());
     }
     
     public void setScoreText(int score) {
@@ -535,7 +565,7 @@ public class CBLProject extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private BoardPanel boardPanel2;
+    public BoardPanel boardPanel2;
     private DrawQueue drawQueue1;
     private DrawQueue drawQueue2;
     private DrawQueue drawQueue3;
