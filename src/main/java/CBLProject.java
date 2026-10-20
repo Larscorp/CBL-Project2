@@ -20,17 +20,19 @@ public class CBLProject extends javax.swing.JFrame {
     private static CBLProject frame;
     private static int score = 0;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CBLProject.class.getName());
-    private Ghosts ghostManager;
+    private static Ghosts ghostManager;
+    private int hp = 10;
     /**
      * Creates new form TheRest
      */
     public CBLProject() {
         System.out.println(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"));
         initComponents();
-        jPanel9.setVisible(false);
+        jLabel10.setVisible(false);
         ghostManager = new Ghosts(this);
         panel = boardPanel2;
         panel.setBoard(board);
+        setHPText(10);
         drawnQueue[0] = drawQueue1;
         drawnQueue[0].setQueuePiece(null);
         drawnQueue[1] = drawQueue2;
@@ -49,17 +51,16 @@ public class CBLProject extends javax.swing.JFrame {
     }
     
     public int getGhostSpawnX() {
-        return jPanel9.getX();
+        return jLabel10.getX();
     }
     
     public int getGhostSpawnY() {
-        return jPanel9.getY();
+        return jLabel10.getY();
     }
     
-    public void spawnGhost() {
-        //todo;
+    public JPanel getGhostPanel() {
+        return jPanel4;
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -90,7 +91,6 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         boardPanel2 = new BoardPanel();
@@ -293,25 +293,7 @@ public class CBLProject extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/spookje_paars.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(jLabel10)
-                .addContainerGap())
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel4.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, -1, -1));
+        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
         jLabel12.setText("jLabel12");
 
@@ -489,9 +471,12 @@ public class CBLProject extends javax.swing.JFrame {
         timer.start();
     }
     
-    private static void lockAndSpawn(boolean hardDropped) {        
+    private static void lockAndSpawn(boolean hardDropped) {
+        if (gameOver) {
+            ghostManager.pause();
+            return;
+        }
         movement.lockPiece();
-        
         int linesBefore = board.getLinesCleared();
         int scoreBefore = GameMechanics.getScore();
         gameMechanics.clearLinesAndScore();
@@ -533,6 +518,7 @@ public class CBLProject extends javax.swing.JFrame {
         currentObjective = objectives.getNextObjective();
         objectiveDeadline = System.nanoTime() + 15_000_000_000L;
         showObjective();
+        ghostManager.spawnGhost();
     }
     
     private static void objectiveCompleted() {
@@ -564,6 +550,25 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel12.setText(objective);
     }
     
+    public void setHPText(int health, boolean increase) {
+        if (increase) {
+            hp = hp + health;
+            jLabel9.setText(String.valueOf(hp));
+        } else {
+            hp = hp - health;
+            jLabel9.setText(String.valueOf(hp));
+        }
+        if (hp <= 0) {
+            ghostManager.pause();
+            gameOver = true;
+        }
+    }
+    
+    public void setHPText(int health) {
+        hp = health;
+        jLabel9.setText(String.valueOf(health));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
     private DrawQueue drawQueue1;
@@ -583,13 +588,12 @@ public class CBLProject extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     public javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private static javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel9;
     // End of variables declaration//GEN-END:variables
     
 }
