@@ -436,7 +436,7 @@ public class CBLProject extends javax.swing.JFrame {
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
-        
+        bag.addBlock("bigO");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             frame = new CBLProject();
@@ -538,7 +538,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void newObjective() {
         currentObjective = objectives.getNextObjective();
-        objectiveDeadline = System.nanoTime() + 10_000_000_000L;
+        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
         showObjective();
         ghostManager.spawnGhost();
     }

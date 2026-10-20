@@ -22,7 +22,7 @@ public class Ghosts {
     private int ghostAmount = 0;
     private final JPanel panel;
     private Timer timer = new Timer(50, e -> update());
-    private double ghostSpeed;
+    private double ghostSpeed = 1;
     private long lastDropTime = System.nanoTime();
     
     public Ghosts(CBLProject ui) {
@@ -35,6 +35,10 @@ public class Ghosts {
     
     public void spawnGhost() {
         spawnGhost(ui.getGhostSpawnX());
+    }
+    
+    public double ghostSpeed() {
+        return 0.0;
     }
     
     public void spawnGhost(int x) {

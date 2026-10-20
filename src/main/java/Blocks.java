@@ -65,6 +65,12 @@ public class Blocks {
         {false, false, false}
     }, 1); // red
     
+    public static Blocks bigO = new Blocks(new boolean[][] {
+        {true,  true,  true},
+        {true, true,  true},
+        {true, true, true}
+    }, 3);
+    
     public static Blocks O = new Blocks(new boolean[][] {
         {true, true},
         {true, true},

@@ -47,7 +47,8 @@ public class Bag {
             case "L" -> new Blocks(Blocks.L, 2);
             case "S" -> new Blocks(Blocks.S, 4);
             case "Z" -> new Blocks(Blocks.Z, 1);
-            //case "debugT" -> new Blocks(Blocks.debugT, 7);
+            case "debugT" -> new Blocks(Blocks.debugT, 7);
+            case "bigO" -> new Blocks(Blocks.bigO, 3);
             default -> null;
         };
     }
@@ -65,6 +66,21 @@ public class Bag {
         }
         fillQueue(1);
         return tempPiece;
+    }
+    
+    public void addBlock(String block) {
+        switch (block) {
+            case "debugT" -> blocks.add("debugT");
+            case "bigO" -> blocks.add("bigO");
+            case "I" -> blocks.add("I");
+            case "O" -> blocks.add("O");
+            case "T" -> blocks.add("T");
+            case "J" -> blocks.add("J");
+            case "L" -> blocks.add("L");
+            case "S" -> blocks.add("S");
+            case "Z" -> blocks.add("Z");
+        };
+        Collections.shuffle(blocks);
     }
     
     public Blocks checkQueue(int n) {
