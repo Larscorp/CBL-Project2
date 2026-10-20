@@ -39,10 +39,10 @@ public class Ghosts {
     
     public void spawnGhost(int x) {
         int slot = ghostAmount;
-        ghostAmount++;
         if (slot >= 30) {
             return;
         }
+        ghostAmount++;
         int imageIndex = random.nextInt(imagePaths.length);
         ImageIcon icon = new ImageIcon(getClass().getResource(imagePaths[imageIndex]));
         JLabel label = new JLabel(icon);
@@ -77,9 +77,11 @@ public class Ghosts {
         labels[0] = null;
         ghosts[0] = 0;
         ghostAmount--;
-        panel.repaint();
         System.arraycopy(labels, 1, labels, 0, ghostAmount);
         System.arraycopy(ghosts, 1, ghosts, 0, ghostAmount);
+        labels[ghostAmount] = null;
+        ghosts[ghostAmount] = 0;
+        panel.repaint();
     }
     
     public boolean ghostMoves() {
