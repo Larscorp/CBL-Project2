@@ -16,13 +16,13 @@ public class RandomizeObjectives {
         objectives.add("PLACE15");
         objectives.add("PLACE20");
         objectives.add("HARD9");
-        objectives.add("HOLD4");
+        //objectives.add("HOLD4"); -> need to add
         objectives.add("NOHOLD8");
         objectives.add("DOUBLE"); 
         objectives.add("2DOUBLES");
         objectives.add("TRIPLE");
         objectives.add("TETRIS");
-        objectives.add("CLEAR3");
+        //objectives.add("CLEAR3");
         //objectives.add("CLEAR3_HARD5"); -> need to implement
         //objectives.add("CLEAR3_PLACE10"); -> need to implement
         //objectives.add("DOUBLE_HARD5"); -> need to implement
@@ -37,7 +37,6 @@ public class RandomizeObjectives {
         String next = objectives.remove(0);
         
         Predicate<LockEvent> noHold = e -> !e.usedHold();
-        Predicate<LockEvent> Hold = e -> e.usedHold();
         
                 return switch (next) {
             case "CLEAR4" -> new Objective("Clear 4 lines", 4,
@@ -49,17 +48,17 @@ public class RandomizeObjectives {
             case "CLEAR6" -> new Objective("Clear 6 lines", 6,
                     Rules.count(LockEvent::linesCleared));
                 
-            case "PLACE20" -> new Objective("Place 15 pieces", 15,
+            case "PLACE15" -> new Objective("Place 15 pieces", 15,
                     Rules.countIf(e -> true));
             
-            case "PLACE25" -> new Objective("Place 20 pieces", 20,
+            case "PLACE20" -> new Objective("Place 20 pieces", 20,
                     Rules.countIf(e -> true));
             
             case "HARD9" -> new Objective("Hard drop 9 pieces", 9,
                     Rules.countIf(LockEvent::hardDropped));
             
-            case "HOLD4" -> new Objective("Place 4 pieces in hold", 4,
-                    Rules.streakOf(Hold));    
+            //case "HOLD4" -> new Objective("Place 4 pieces in hold", 4,
+                    //Rules.streakOf(Hold));    
                 
             case "NOHOLD8" -> new Objective("Place 8 pieces in a row without hold", 8,
                     Rules.streakOf(noHold));    
@@ -75,9 +74,6 @@ public class RandomizeObjectives {
                 
             case "TETRIS" -> new Objective("Clear a Tetris", 1,
                     Rules.countIf(e -> e.linesCleared() == 4));
-                
-            case "SCORE300" -> new Objective("Score 300 points", 300,
-                    Rules.count(LockEvent::pointsGained));
                     
             default -> null;
         };

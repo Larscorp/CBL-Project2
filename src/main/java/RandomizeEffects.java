@@ -80,8 +80,8 @@ public class RandomizeEffects {
         String next = debuffs.remove(0);
 
         Effect effect = switch (next) {
-            case "FASTFALL" -> fallDelay("Fast fall", 10, 0.5);
-            case "NOHOLD" -> new Effect("No hold", 30,
+            case "FASTFALL" -> fallDelay("Fast fall", 10, 0.5).withImage("/newpackage/inHeat.jpg");
+            case "NOHOLD" -> new Effect("No hold", 15,
                     ctx -> ctx.movement().blockHold(),
                     ctx -> ctx.movement().unblockHold());
             case "GHOSTOFF" -> new Effect("Ghost off", 15,

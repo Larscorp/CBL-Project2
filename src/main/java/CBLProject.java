@@ -538,7 +538,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void newObjective() {
         currentObjective = objectives.getNextObjective();
-        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
+        objectiveDeadline = System.nanoTime() + 10_000_000_000L;
         showObjective();
         ghostManager.spawnGhost();
     }
