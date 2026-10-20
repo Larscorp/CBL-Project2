@@ -101,9 +101,6 @@ public class Board {
         }
         return false;
     }
-    /*public boolean shouldPlace(int r, int c, Blocks currentBlock) {
-        currentBlock[1][2] = true;
-    }*/
     
     public int getLevel() {
         return (linesCleared / 10) + 1;

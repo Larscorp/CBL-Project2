@@ -436,7 +436,7 @@ public class CBLProject extends javax.swing.JFrame {
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
-        
+        bag.addBlock("bigO");
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             frame = new CBLProject();
