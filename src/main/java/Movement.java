@@ -29,7 +29,7 @@ public class Movement {
     
     public double fallSpeed() {
         level = board.getLevel();
-        return (Math.pow((0.8 - ((level - 1) * 0.007)), level - 1) * fallDelayMultiplier);
+        return (Math.pow((0.8 - ((level - 1) * 0.007)), (level - 1) / 5 + 1) * fallDelayMultiplier);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
     

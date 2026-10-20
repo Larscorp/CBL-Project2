@@ -14,8 +14,14 @@ public class RandomizeEffects {
     private void refillBuffs() {
         buffs.add("SLOWFALL");
         buffs.add("SCOREBOOST");
-        buffs.add("CLEARROW");
+        buffs.add("CLEARROW"); //maybe remove
         buffs.add("FILLHOLE");
+        //still need to implement
+        buffs.add("SLOWGHOSTS");
+        buffs.add("DAMAGEGHOST"); //sets ghost back a little
+        buffs.add("SHIELD");
+        buffs.add("EXTRALIFE");
+        buffs.add("SCOREBONUS"); //gives ... score (* level)
         Collections.shuffle(buffs);
     }
 
@@ -23,6 +29,14 @@ public class RandomizeEffects {
         debuffs.add("FASTFALL");
         debuffs.add("NOHOLD");
         debuffs.add("GHOSTOFF");
+        //still need to implement
+        debuffs.add("BLINDNEXT"); //hide next piece
+        debuffs.add("FASTGHOSTS");
+        debuffs.add("SCORELOSS");
+        debuffs.add("ROTATELOCK");
+        debuffs.add("JAMMED"); //disable hard drop
+        debuffs.add("EXTRAGHOST");
+        debuffs.add("GARBAGE"); //add garbage row
         Collections.shuffle(debuffs);
     }
 
@@ -67,7 +81,7 @@ public class RandomizeEffects {
 
         Effect effect = switch (next) {
             case "FASTFALL" -> fallDelay("Fast fall", 10, 0.5);
-            case "NOHOLD" -> new Effect("No hold", 10,
+            case "NOHOLD" -> new Effect("No hold", 30,
                     ctx -> ctx.movement().blockHold(),
                     ctx -> ctx.movement().unblockHold());
             case "GHOSTOFF" -> new Effect("Ghost off", 15,
