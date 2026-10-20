@@ -29,7 +29,7 @@ public class CBLProject extends javax.swing.JFrame {
     private int hp = 10;
     private static long ghostDeadline;
     private static final long GHOST_INTERVAL = 30_000_000_000L; 
-    private boolean isPaused = false;
+    private static boolean isPaused = false;
     /**
      * Creates new form TheRest
      */
@@ -413,7 +413,11 @@ public class CBLProject extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (isPaused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -544,6 +548,14 @@ public class CBLProject extends javax.swing.JFrame {
         timer.stop();
         ghostManager.pause();
         controls.pauseControls(true);
+        isPaused = true;
+    }
+    
+    private static void resumeGame() {
+        timer.start();
+        ghostManager.play();
+        controls.pauseControls(false);
+        isPaused = false;
     }
     
     private static void refresh() {
