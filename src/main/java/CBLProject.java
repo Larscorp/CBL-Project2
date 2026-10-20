@@ -19,6 +19,7 @@ public class CBLProject extends javax.swing.JFrame {
     private static Objective currentObjective;
     private static long objectiveDeadline; 
     private static CBLProject frame;
+    private static Controls controls;
     private static int score = 0;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CBLProject.class.getName());
     private static Ghosts ghostManager;
@@ -27,7 +28,8 @@ public class CBLProject extends javax.swing.JFrame {
     private static EffectsDisplay effectsDisplay;
     private int hp = 10;
     private static long ghostDeadline;
-    private static final long GHOST_INTERVAL = 20_000_000_000L; 
+    private static final long GHOST_INTERVAL = 30_000_000_000L; 
+    private boolean isPaused = false;
     /**
      * Creates new form TheRest
      */
@@ -450,7 +452,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void startGame() {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
-        Controls controls = new Controls(panel);
+        controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
         effectBag = new RandomizeEffects();
         effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel));
@@ -536,6 +538,12 @@ public class CBLProject extends javax.swing.JFrame {
         }
         movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
                 ((next.getSize() + 1) / 2)));
+    }
+    
+    private static void pauseGame() {
+        timer.stop();
+        ghostManager.pause();
+        controls.pauseControls(true);
     }
     
     private static void refresh() {

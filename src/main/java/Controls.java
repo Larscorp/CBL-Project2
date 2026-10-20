@@ -3,7 +3,8 @@ import javax.swing.*;
 
 public class Controls {
     private final JComponent target;
-
+    private boolean paused = false;
+    
     public Controls(JComponent target) {
         this.target = target;
     }
@@ -14,8 +15,13 @@ public class Controls {
         target.getActionMap().put(key, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                action.run();
+                if (!paused) {
+                    action.run();
+                }
             }
         });
+    }
+    public void pauseControls(boolean p) {
+        paused = p;
     }
 }
