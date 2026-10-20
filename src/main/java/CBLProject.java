@@ -26,6 +26,8 @@ public class CBLProject extends javax.swing.JFrame {
     private static ActiveEffects effects;
     private static EffectsDisplay effectsDisplay;
     private int hp = 10;
+    private static long ghostDeadline;
+    private static final long GHOST_INTERVAL = 20_000_000_000L; 
     /**
      * Creates new form TheRest
      */
@@ -457,6 +459,7 @@ public class CBLProject extends javax.swing.JFrame {
         objectives = new RandomizeObjectives();
         newObjective();
         queue = bag.getQueue();
+        ghostDeadline = System.nanoTime() + GHOST_INTERVAL;
         
         for (int n = 0; n < 5; n++) {
             drawnQueue[n].setQueuePiece(queue[n]);
@@ -485,6 +488,11 @@ public class CBLProject extends javax.swing.JFrame {
             if (System.nanoTime() - objectiveDeadline >= 0) {
                 objectiveFailed();
             }
+            if (System.nanoTime() - ghostDeadline >= 0) {
+                ghostManager.spawnGhost();
+                ghostManager.setGhostSpeed(board.getLevel());
+                ghostDeadline = System.nanoTime() + GHOST_INTERVAL;
+            }    
             refresh();
             effects.update();
             effectsDisplay.update();
@@ -538,9 +546,8 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void newObjective() {
         currentObjective = objectives.getNextObjective();
-        objectiveDeadline = System.nanoTime() + 15_000_000_000L;
+        objectiveDeadline = System.nanoTime() + 30_000_000_000L;
         showObjective();
-        ghostManager.spawnGhost();
     }
     
     private static void objectiveCompleted() {
@@ -552,13 +559,7 @@ public class CBLProject extends javax.swing.JFrame {
         }
         newObjective();
     }
-    
-    private static void newGhost() {
-        ghostManager.spawnGhost();
-        ghostManager.setGhostSpeed(board.getLevel());
-    }
-        
-    
+       
     private static void objectiveFailed() {
         Effect debuff = effectBag.getNextDebuff();
         effects.apply(debuff);

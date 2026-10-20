@@ -17,10 +17,10 @@ public class RandomizeEffects {
         buffs.add("CLEARROW");
         buffs.add("FILLHOLE");
         //still need to implement
-        //buffs.add("SLOWGHOSTS");
+        //buffs.add("SLOWGHOSTS"); //slows ghosts down
         //buffs.add("DAMAGEGHOST"); //sets ghost back a little
-        //buffs.add("SHIELD");
-        //buffs.add("EXTRALIFE");
+        //buffs.add("SHIELD"); //gives shield against damage for 60 seconds
+        //buffs.add("EXTRALIFE"); //+1 life
         //buffs.add("SCOREBONUS"); //gives ... score (* level)
         Collections.shuffle(buffs);
     }
@@ -31,11 +31,11 @@ public class RandomizeEffects {
         debuffs.add("GHOSTOFF");
         //still need to implement
         //debuffs.add("BLINDNEXT"); //hide next piece
-        //debuffs.add("FASTGHOSTS");
-        //debuffs.add("SCORELOSS");
-        //debuffs.add("ROTATELOCK");
+        //debuffs.add("FASTGHOSTS"); //makes ghosts temporarly faster
+        //debuffs.add("SCORELOSS"); //removes score (* level)
+        //debuffs.add("ROTATELOCK"); //cant rotate for 5 seconds
         //debuffs.add("JAMMED"); //disable hard drop
-        //debuffs.add("EXTRAGHOST");
+        //debuffs.add("EXTRAGHOST"); //adds a ghost
         //debuffs.add("GARBAGE"); //add garbage row
         Collections.shuffle(debuffs);
     }
