@@ -37,10 +37,6 @@ public class Ghosts {
         spawnGhost(ui.getGhostSpawnX());
     }
     
-    public double ghostSpeed() {
-        return 0.0;
-    }
-    
     public void spawnGhost(int x) {
         int slot = ghostAmount;
         if (slot >= 30) {
@@ -107,8 +103,8 @@ public class Ghosts {
         timer.start();
     }
     
-    public void setGhostSpeed(double speed) {
-        ghostSpeed = speed;
+    public void setGhostSpeed(double level) {
+        ghostSpeed = 2 / level; //placeholder
     }
     
     public int getGhostAmount() {
