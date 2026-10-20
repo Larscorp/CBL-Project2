@@ -436,7 +436,6 @@ public class CBLProject extends javax.swing.JFrame {
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             frame = new CBLProject();
@@ -465,9 +464,9 @@ public class CBLProject extends javax.swing.JFrame {
         controls.bind("LEFT",  () -> movement.moveLeft());
         controls.bind("RIGHT", () -> movement.moveRight());
         controls.bind("DOWN",  () -> movement.softDrop());
-        controls.bind("UP",    () -> movement.rotateClockwise());
+        controls.bind("X",    () -> movement.rotateClockwise());
         controls.bind("Z",     () -> movement.rotateCounterClockwise());
-        controls.bind("U",     () -> movement.rotate180());
+        controls.bind("A",     () -> movement.rotate180());
         controls.bind("C",     () -> {
                 movement.putHold();
                 drawHoldPiece.setQueuePiece(movement.getHoldPiece());

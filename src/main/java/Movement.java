@@ -18,6 +18,7 @@ public class Movement {
     private int lockResets = 0; //how many times moved on the ground
     private double fallDelayMultiplier = 1.0;
     private int holdBlockers = 0;
+    private int state = 0;
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -101,9 +102,201 @@ public class Movement {
     }
     
     public boolean rotateClockwise() {
+        System.out.println(state);
         currentPiece.simpleRotateBlockClockwise();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            state++;
             return true;
+        } else if (currentPiece.getSize() == 3) {
+            switch (((state % 4) + 4) % 4) {
+                case 0:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state++;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol - 1)) {
+                        pieceRow--;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol)) {
+                        pieceRow = pieceRow + 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol - 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 1:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state++;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol + 1)) {
+                        pieceRow++;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol)) {
+                        pieceRow = pieceRow - 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol + 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 2:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state++;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol + 1)) {
+                        pieceRow--;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol)) {
+                        pieceRow = pieceRow + 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol + 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 3:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state++;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol - 1)) {
+                        pieceRow++;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol)) {
+                        pieceRow = pieceRow - 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol - 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+            }
+        } else if (currentPiece.getSize() == 4) {
+            switch (((state % 4) + 4) % 4) {
+                case 0:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
+                        state++;
+                        pieceCol = pieceCol - 2;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol - 2)) {
+                        pieceRow++;
+                        pieceCol = pieceCol - 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol + 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 1:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state++;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
+                        pieceCol = pieceCol + 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol - 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol + 2)) {
+                        pieceRow++;
+                        pieceCol = pieceCol + 2;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 2:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
+                        state++;
+                        pieceCol = pieceCol + 2;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol + 2)) {
+                        pieceRow--;
+                        pieceCol = pieceCol + 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol - 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol--;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+                case 3:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state++;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
+                        pieceCol = pieceCol - 2;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol + 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol++;
+                        state++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol - 2)) {
+                        pieceRow--;
+                        pieceCol = pieceCol - 2;
+                        state++;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockCounterClockwise();
+                        return false;
+                    }
+            }
         }
         currentPiece.simpleRotateBlockCounterClockwise();
         return false;
@@ -112,7 +305,198 @@ public class Movement {
     public boolean rotateCounterClockwise() {
         currentPiece.simpleRotateBlockCounterClockwise();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            state--;
             return true;
+        } else if (currentPiece.getSize() == 3) {
+            switch (((state % 4) + 4) % 4) {
+                case 0:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state--;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol + 1)) {
+                        pieceRow--;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol)) {
+                        pieceRow = pieceRow + 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol + 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 3:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state--;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol - 1)) {
+                        pieceRow++;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol)) {
+                        pieceRow = pieceRow - 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol - 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 2:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state--;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol - 1)) {
+                        pieceRow++;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol)) {
+                        pieceRow = pieceRow - 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol - 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 1:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state--;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol + 1)) {
+                        pieceRow++;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol)) {
+                        pieceRow = pieceRow - 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol + 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+            }
+        } else if (currentPiece.getSize() == 4) {
+            switch (((state % 4) + 4) % 4) {
+                case 0:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        state--;
+                        pieceCol--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
+                        pieceCol = pieceCol + 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol - 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol + 2)) {
+                        pieceRow++;
+                        pieceCol = pieceCol + 2;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 1:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
+                        state--;
+                        pieceCol = pieceCol + 2;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol + 2)) {
+                        pieceRow--;
+                        pieceCol = pieceCol + 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol - 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol--;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 2:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        state--;
+                        pieceCol++;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
+                        pieceCol = pieceCol - 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 2, pieceCol + 1)) {
+                        pieceRow = pieceRow + 2;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 1, pieceCol - 2)) {
+                        pieceRow--;
+                        pieceCol = pieceCol - 2;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+                case 3:
+                    if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
+                        state--;
+                        pieceCol = pieceCol - 2;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow + 1, pieceCol - 2)) {
+                        pieceRow++;
+                        pieceCol = pieceCol - 2;
+                        state--;
+                        return true;
+                    } else if (canMove(currentPiece.getGrid(), pieceRow - 2, pieceCol + 1)) {
+                        pieceRow = pieceRow - 2;
+                        pieceCol++;
+                        state--;
+                        return true;
+                    } else {
+                        currentPiece.simpleRotateBlockClockwise();
+                        return false;
+                    }
+            }
         }
         currentPiece.simpleRotateBlockClockwise();
         return false;
@@ -122,6 +506,7 @@ public class Movement {
     public boolean rotate180() {
         currentPiece.simpleRotate180();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            state = state + 2;
             return true;
         }
         currentPiece.simpleRotate180();
@@ -161,6 +546,7 @@ public class Movement {
     
     public void spawnNewPiece(Blocks piece, int row, int col) {
         currentPiece = piece;
+        state = 0;
         pieceRow = row;
         pieceCol = col;
         lastDropTime = System.nanoTime();
@@ -173,6 +559,11 @@ public class Movement {
             return;
         }
         canHold = false;
+        switch (((state % 4) + 4) % 4) {
+            case 1 -> currentPiece.simpleRotateBlockCounterClockwise();
+            case 2 -> currentPiece.simpleRotate180();
+            case 3 -> currentPiece.simpleRotateBlockClockwise();
+        }
         
         if (holdPiece == Blocks.Empty) {
             holdPiece = currentPiece;
