@@ -16,7 +16,6 @@ public class RandomizeObjectives {
         objectives.add("SCORE300");
         objectives.add("HARD3");
         objectives.add("NOHOLD3");
-        objectives.add("DOUBLENOHOLD");
         objectives.add("DOUBLE");
         objectives.add("TRIPLE");
         objectives.add("TETRIS");
@@ -50,9 +49,6 @@ public class RandomizeObjectives {
                 
             case "NOHOLD3" -> new Objective("Place 3 pieces in a row without hold", 3,
                     Rules.streakOf(noHold));
-                
-            case "DOUBLENOHOLD" -> new Objective("Clear a dobule without hold", 1,
-                    Rules.countIf(noHold.and(e -> e.linesCleared() >= 2)));
                 
             case "DOUBLE" -> new Objective("Clear a double", 1,
                     Rules.countIf(e -> e.linesCleared() >= 2));

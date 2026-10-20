@@ -21,6 +21,9 @@ public class CBLProject extends javax.swing.JFrame {
     private static int score = 0;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CBLProject.class.getName());
     private Ghosts ghostManager;
+    private static RandomizeEffects effectBag;
+    private static ActiveEffects effects;
+    private static EffectsDisplay effectsDisplay;
     /**
      * Creates new form TheRest
      */
@@ -58,6 +61,16 @@ public class CBLProject extends javax.swing.JFrame {
     
     public void spawnGhost() {
         //todo;
+    }
+    
+    public java.awt.Rectangle getBoardBounds() {
+        return SwingUtilities.convertRectangle(boardPanel2.getParent(), 
+                boardPanel2.getBounds(), getLayeredPane());
+    }
+
+    public java.awt.Rectangle getScorePanelBounds() {
+        return SwingUtilities.convertRectangle(jPanel3.getParent(), 
+                jPanel3.getBounds(), getLayeredPane());
     }
 
     /**
@@ -355,12 +368,12 @@ public class CBLProject extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(boardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -453,6 +466,10 @@ public class CBLProject extends javax.swing.JFrame {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
+        effectBag = new RandomizeEffects();
+        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel));
+        effectsDisplay = new EffectsDisplay(frame, effects);
+        effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();
         newObjective();
         queue = bag.getQueue();
@@ -485,6 +502,8 @@ public class CBLProject extends javax.swing.JFrame {
                 objectiveFailed();
             }
             refresh();
+            effects.update();
+            effectsDisplay.update();
         });
         timer.start();
     }
@@ -536,14 +555,14 @@ public class CBLProject extends javax.swing.JFrame {
     }
     
     private static void objectiveCompleted() {
-        System.out.println("Objective Completed!");
-        //give buff
+        Effect buff = effectBag.getNextBuff();
+        effects.apply(buff);
         newObjective();
     }
     
     private static void objectiveFailed() {
-        System.out.println("Objective failed");
-        //give debuff
+        Effect debuff = effectBag.getNextDebuff();
+        effects.apply(debuff);
         newObjective();
     }
     
