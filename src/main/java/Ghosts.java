@@ -24,6 +24,7 @@ public class Ghosts {
     private Timer timer = new Timer(50, e -> update());
     private double ghostSpeed = 1;
     private long lastDropTime = System.nanoTime();
+    private long lastPause;
     
     public Ghosts(CBLProject ui) {
         this.ui = ui;
@@ -96,10 +97,12 @@ public class Ghosts {
     }
     
     public void pause() {
+        lastPause = System.nanoTime();
         timer.stop();
     }
     
     public void play() {
+        lastDropTime = lastDropTime + (System.nanoTime() - lastPause);
         timer.start();
     }
     

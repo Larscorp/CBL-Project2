@@ -30,6 +30,7 @@ public class CBLProject extends javax.swing.JFrame {
     private static long ghostDeadline;
     private static final long GHOST_INTERVAL = 30_000_000_000L; 
     private static boolean isPaused = false;
+    public static long lastPauseTime;
     /**
      * Creates new form TheRest
      */
@@ -549,6 +550,8 @@ public class CBLProject extends javax.swing.JFrame {
         ghostManager.pause();
         controls.pauseControls(true);
         isPaused = true;
+        lastPauseTime = System.nanoTime();
+        
     }
     
     private static void resumeGame() {
@@ -556,6 +559,9 @@ public class CBLProject extends javax.swing.JFrame {
         ghostManager.play();
         controls.pauseControls(false);
         isPaused = false;
+        objectiveDeadline = objectiveDeadline + (System.nanoTime() - lastPauseTime);
+        ghostDeadline = ghostDeadline + (System.nanoTime() - lastPauseTime);
+
     }
     
     private static void refresh() {
