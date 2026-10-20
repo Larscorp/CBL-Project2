@@ -49,12 +49,58 @@ public class Board {
     
     public boolean hasColision(int r, int c) {
         if (r > boardLength || r <= 0 || c > boardWidth || c <= 0) {
-            return true; // check if the given coordinates are within the board
+            return true; 
         } else {
             return grid[r - 1][c - 1] != 0;
         }
     }
     
+    public boolean fillBottomHole(int color) {
+        return (fillCoveredHole(color) || fillRowGap(color));
+    }
+    
+    private boolean fillCoveredHole(int color) {
+        int[] top = new int[boardWidth];
+        for (int c = 0; c < boardWidth; c++) {
+            top[c] = boardLength;
+            for (int r = 0; r < boardLength; r++) {
+                if (grid[r][c] != 0) {
+                    top[c] = r;
+                    break;
+                }
+            }
+        }
+        for (int r = boardLength - 1; r >= 0; r--) {
+            for (int c = 0; c < boardWidth; c++) {
+                if (grid[r][c] == 0 && r > top[c]) {
+                    grid[r][c] = color;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean fillRowGap(int color) {
+        for (int r = boardLength - 1; r >= 0; r--) {
+            int blocks = 0;
+            for (int c = 0; c < boardWidth; c++) {
+                if (grid[r][c] != 0) {
+                    blocks++;
+                }
+            }
+            if (blocks == 0 || blocks == boardWidth) {
+                continue;                                  
+            }
+            for (int c = 0; c < boardWidth; c++) {
+                if (grid[r][c] == 0) {
+                    grid[r][c] = color;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /*public boolean shouldPlace(int r, int c, Blocks currentBlock) {
         currentBlock[1][2] = true;
     }*/

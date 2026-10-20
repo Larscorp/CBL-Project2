@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 
 public class CBLProject extends javax.swing.JFrame {
@@ -20,7 +21,10 @@ public class CBLProject extends javax.swing.JFrame {
     private static CBLProject frame;
     private static int score = 0;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CBLProject.class.getName());
-    private static Ghosts ghostManager;
+    private Ghosts ghostManager;
+    private static RandomizeEffects effectBag;
+    private static ActiveEffects effects;
+    private static EffectsDisplay effectsDisplay;
     private int hp = 10;
     /**
      * Creates new form TheRest
@@ -61,6 +65,17 @@ public class CBLProject extends javax.swing.JFrame {
     public JPanel getGhostPanel() {
         return jPanel4;
     }
+    
+    public java.awt.Rectangle getBoardBounds() {
+        return SwingUtilities.convertRectangle(boardPanel2.getParent(), 
+                boardPanel2.getBounds(), getLayeredPane());
+    }
+
+    public java.awt.Rectangle getScorePanelBounds() {
+        return SwingUtilities.convertRectangle(jPanel3.getParent(), 
+                jPanel3.getBounds(), getLayeredPane());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,6 +106,7 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jPanel9 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         boardPanel2 = new BoardPanel();
@@ -293,7 +309,25 @@ public class CBLProject extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/spookje_paars.png"))); // NOI18N
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(28, Short.MAX_VALUE)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel4.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, -1, -1));
 
         jLabel12.setText("jLabel12");
 
@@ -337,12 +371,12 @@ public class CBLProject extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(boardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -435,6 +469,10 @@ public class CBLProject extends javax.swing.JFrame {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
         Controls controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
+        effectBag = new RandomizeEffects();
+        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel));
+        effectsDisplay = new EffectsDisplay(frame, effects);
+        effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();
         newObjective();
         queue = bag.getQueue();
@@ -467,6 +505,8 @@ public class CBLProject extends javax.swing.JFrame {
                 objectiveFailed();
             }
             refresh();
+            effects.update();
+            effectsDisplay.update();
         });
         timer.start();
     }
@@ -475,8 +515,9 @@ public class CBLProject extends javax.swing.JFrame {
         if (gameOver) {
             ghostManager.pause();
             return;
-        }
+        }      
         movement.lockPiece();
+        
         int linesBefore = board.getLinesCleared();
         int scoreBefore = GameMechanics.getScore();
         gameMechanics.clearLinesAndScore();
@@ -518,18 +559,17 @@ public class CBLProject extends javax.swing.JFrame {
         currentObjective = objectives.getNextObjective();
         objectiveDeadline = System.nanoTime() + 15_000_000_000L;
         showObjective();
-        ghostManager.spawnGhost();
     }
     
     private static void objectiveCompleted() {
-        System.out.println("Objective Completed!");
-        //give buff
+        Effect buff = effectBag.getNextBuff();
+        effects.apply(buff);
         newObjective();
     }
     
     private static void objectiveFailed() {
-        System.out.println("Objective failed");
-        //give debuff
+        Effect debuff = effectBag.getNextDebuff();
+        effects.apply(debuff);
         newObjective();
     }
     
@@ -549,7 +589,7 @@ public class CBLProject extends javax.swing.JFrame {
     public void setObjectiveText(String objective) {
         jLabel12.setText(objective);
     }
-    
+	
     public void setHPText(int health, boolean increase) {
         if (increase) {
             hp = hp + health;

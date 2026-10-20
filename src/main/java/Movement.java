@@ -16,6 +16,8 @@ public class Movement {
     private boolean grounded = false;   
     private long lockStart;             
     private int lockResets = 0; //how many times moved on the ground
+    private double fallDelayMultiplier = 1.0;
+    private int holdBlockers = 0;
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -27,7 +29,7 @@ public class Movement {
     
     public double fallSpeed() {
         level = board.getLevel();
-        return Math.pow((0.8 - ((level - 1) * 0.007)), level - 1);
+        return (Math.pow((0.8 - ((level - 1) * 0.007)), level - 1) * fallDelayMultiplier);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
     
@@ -167,7 +169,7 @@ public class Movement {
     }
     
     public void putHold() {
-        if (!canHold) {
+        if (!canHold || holdBlockers > 0) {
             return;
         }
         canHold = false;
@@ -211,7 +213,19 @@ public class Movement {
     
     public boolean canSpawn(Blocks piece, int row, int col) {
         return canMove(piece.getGrid(), row, col);
-    }    
+    }
+
+    public void multiplyFallDelay(double factor) {
+        fallDelayMultiplier *= factor;
+    
+    }
+    public void blockHold() {
+        holdBlockers++; 
+    }
+    
+    public void unblockHold() { 
+        holdBlockers--; 
+    }
     
     public Blocks getCurrentPiece() {
         return currentPiece;
