@@ -15,7 +15,7 @@ public class Controls {
         target.getActionMap().put(key, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!paused) {
+                if (!paused || key.equals("ESCAPE")) {
                     action.run();
                 }
             }

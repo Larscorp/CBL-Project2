@@ -414,11 +414,7 @@ public class CBLProject extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (isPaused) {
-            resumeGame();
-        } else {
-            pauseGame();
-        }
+        togglePause();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -486,6 +482,7 @@ public class CBLProject extends javax.swing.JFrame {
                 movement.hardDrop(); 
                 lockAndSpawn(true);
                 });
+        controls.bind("ESCAPE",   () -> togglePause());
         refresh();
         
         timer = new Timer(10, e -> {
@@ -543,6 +540,14 @@ public class CBLProject extends javax.swing.JFrame {
         }
         movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
                 ((next.getSize() + 1) / 2)));
+    }
+    
+    private static void togglePause() {                                         
+        if (isPaused) {
+            resumeGame();
+        } else {
+            pauseGame();
+        }
     }
     
     private static void pauseGame() {
