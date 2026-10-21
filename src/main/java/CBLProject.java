@@ -773,6 +773,10 @@ public class CBLProject extends javax.swing.JFrame {
     public void setObjectiveTime(long secondsLeft) {
         objectiveTimerLabel.setText(secondsLeft + "s");
     }
+    
+    public static Board getBoard() {
+        return board;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
     private DrawQueue drawQueue1;

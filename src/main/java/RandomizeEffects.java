@@ -80,8 +80,10 @@ public class RandomizeEffects {
                     ctx -> ctx.ui().removeShield());
             case "EXTRALIFE" -> Effect.instant("Extra life",
                     ctx -> ctx.ui().addLife(1));
-            case "SCOREBONUS" -> Effect.instant("You gain points!",
-                    ctx -> ctx.mechanics().addScore(SCORE_BONUS * ctx.board().getLevel())); //should be amount of points
+            case "SCOREBONUS" -> {int points = SCORE_BONUS * CBLProject.getBoard().getLevel();
+                yield Effect.instant("You gain " + points + " points!",
+                        ctx -> ctx.mechanics().addScore(points));
+            }
             default -> null;
         };
         return effect.asBuff();
@@ -105,8 +107,10 @@ public class RandomizeEffects {
                     ctx -> ctx.ui().setQueueHidden(true),
                     ctx -> ctx.ui().setQueueHidden(false));
             case "FASTGHOSTS" -> ghostSpeed("Faster ghosts", 20, 2.0);
-            case "SCORELOSS" -> Effect.instant("You lose points!", //should be amount of points
-                    ctx -> ctx.mechanics().addScore(-SCORE_LOSS * ctx.board().getLevel()));
+            case "SCORELOSS" -> {int points = SCORE_LOSS * CBLProject.getBoard().getLevel();
+                yield Effect.instant("You lose " + points + " points!",
+                        ctx -> ctx.mechanics().addScore(-points));
+            }
             case "ROTATELOCK" -> new Effect("Rotate lock", 3,
                     ctx -> ctx.movement().blockRotate(),
                     ctx -> ctx.movement().unblockRotate());
