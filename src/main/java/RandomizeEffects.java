@@ -73,8 +73,7 @@ public class RandomizeEffects {
             case "FILLHOLE" -> Effect.instant("Fill " + HOLES_TO_FILL + " holes", ctx -> {
                 for (int i = 0; i < HOLES_TO_FILL; i++) {
                     ctx.board().fillHoles(8);
-                }
-            }).withImage("/newpackage/HolesFilled.png");
+                }});
             case "SLOWGHOSTS" -> ghostSpeed("Slower ghosts", 30, 0.5);
             case "SHIELD" -> new Effect("Shielded", 60,
                     ctx -> ctx.ui().addShield(),
@@ -95,7 +94,7 @@ public class RandomizeEffects {
         String next = debuffs.remove(0);
 
         Effect effect = switch (next) {
-            case "FASTFALL" -> fallDelay("Fast fall", 10, 0.5).withImage("/newpackage/inHeat.jpg");
+            case "FASTFALL" -> fallDelay("Fast fall", 10, 0.5);
             case "NOHOLD" -> new Effect("No hold", 15,
                     ctx -> ctx.movement().blockHold(),
                     ctx -> ctx.movement().unblockHold());
