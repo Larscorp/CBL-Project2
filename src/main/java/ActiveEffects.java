@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +20,9 @@ public class ActiveEffects {
 
     private final GameContext ctx;
     private final ArrayList<Running> running = new ArrayList<>();
-    private Consumer<Effect> onApply = e -> { }; 
+    private Consumer<Effect> onApply = e -> { };
+    private boolean paused = false;
+    private long pauseTime;
 
     public ActiveEffects(GameContext ctx) {
         this.ctx = ctx;
@@ -36,8 +39,7 @@ public class ActiveEffects {
             effect.start(ctx);
             return;
         }
-        long end = System.nanoTime() + effect.getDurationNanos();
-
+        long end = getCurrentTime() + effect.getDurationNanos();
         for (Running r : running) {
             if (r.effect.getName().equals(effect.getName())) {
                 r.endTime = end;
@@ -49,6 +51,9 @@ public class ActiveEffects {
     }
 
     public void update() {
+        if (paused) {
+            return;
+        }
         long now = System.nanoTime();
         Iterator<Running> it = running.iterator();
         while (it.hasNext()) {
@@ -60,6 +65,34 @@ public class ActiveEffects {
         }
     }
 
+    public void pause() {
+        if (paused) {
+            return;
+        }
+        paused = true;
+        pauseTime = System.nanoTime();
+    }
+
+    public void resume() {
+        if (!paused) {
+            return;
+        }
+        long pausedDuration = System.nanoTime() - pauseTime;
+        for (int i = 0; i < running.size(); i++) {
+            Running r = running.get(i);
+            r.endTime += pausedDuration;
+        }
+        paused = false;
+    }
+
+    private long getCurrentTime() {
+        if (paused) {
+            return pauseTime;
+        } else {
+            return System.nanoTime();
+        }
+    }
+    
     public void clear() {
         for (Running r : running) {
             r.effect.end(ctx);
@@ -68,10 +101,14 @@ public class ActiveEffects {
     }
 
     public List<Info> snapshot() {
-        long now = System.nanoTime();
+        long now = getCurrentTime();
+
         return running.stream()
-                .map(r -> new Info(r.effect.getName(), r.effect.isBuff(),
-                        Math.max(0, (r.endTime - now) / 1_000_000_000L + 1)))
+                .map(r -> new Info(
+                        r.effect.getName(),
+                        r.effect.isBuff(),
+                        Math.max(0, (r.endTime - now)
+                                / 1_000_000_000L + 1)))
                 .toList();
     }
 }

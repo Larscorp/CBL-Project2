@@ -26,16 +26,18 @@ public class CBLProject extends javax.swing.JFrame {
     private static Ghosts ghostManager;
     private static RandomizeEffects effectBag;
     private static ActiveEffects effects;
-    private static EffectsDisplay effectsDisplay;
     private int hp = 5;
     private static long ghostDeadline;
     private static final long GHOST_INTERVAL = 40_000_000_000L; 
-    private static final long OBJECTIVE_INTERVAL = 30_000_000_000L;
+    private static final long OBJECTIVE_INTERVAL = 5_000_000_000L;
     private static boolean isPaused = false;
     public static long lastPauseTime;
     private static CardLayout cards = new CardLayout();
     private static JPanel container = new JPanel(cards);
     private static PauseMenu pausemenu;
+    private javax.swing.JLabel effectPopup;
+    private javax.swing.Timer effectPopupTimer;
+    private static EffectsDisplay effectsDisplay;
     /**
      * Creates new form TheRest
      */
@@ -67,6 +69,23 @@ public class CBLProject extends javax.swing.JFrame {
         setResizable(false);
         pack();
         setLocationRelativeTo(null);
+        
+        //for popups
+        effectPopup = new javax.swing.JLabel();
+        effectPopup.setFont(new java.awt.Font("Candara", java.awt.Font.BOLD, 16));
+        effectPopup.setForeground(java.awt.Color.WHITE);
+        effectPopup.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        effectPopup.setBorder(
+                javax.swing.BorderFactory.createEmptyBorder(8, 16, 8, 16));
+        effectPopup.setOpaque(true);
+        effectPopup.setVisible(false);
+
+        getLayeredPane().add(effectPopup, javax.swing.JLayeredPane.POPUP_LAYER);
+
+        effectPopupTimer = new javax.swing.Timer(2000, e -> {
+            effectPopup.setVisible(false);
+        });
+        effectPopupTimer.setRepeats(false);
     }
     
     public int getGhostSpawnX() {
@@ -109,6 +128,7 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        effectsList = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         drawQueue1 = new DrawQueue();
@@ -180,6 +200,9 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Candara", 0, 18)); // NOI18N
         jLabel7.setText("1");
 
+        effectsList.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
+        effectsList.setText("Active Effects");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -192,8 +215,11 @@ public class CBLProject extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel7))
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(effectsList, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,7 +232,9 @@ public class CBLProject extends javax.swing.JFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(effectsList)
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -325,6 +353,7 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/spookje_paars.png"))); // NOI18N
         jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
+        jLabel12.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jLabel12.setText("jLabel12");
 
         boardPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -400,13 +429,13 @@ public class CBLProject extends javax.swing.JFrame {
                             .addComponent(boardPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 98, Short.MAX_VALUE)))
                         .addGap(13, 13, 13))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 27, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(150, 150, 150))))
+                        .addGap(93, 93, 93))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -467,6 +496,8 @@ public class CBLProject extends javax.swing.JFrame {
         gameMechanics = new GameMechanics(board, frame);
         effectBag = new RandomizeEffects();
         effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel, frame));
+        effects = new ActiveEffects(
+        new GameContext(board, movement, gameMechanics, panel, frame));
         effectsDisplay = new EffectsDisplay(frame, effects);
         effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();
@@ -564,6 +595,8 @@ public class CBLProject extends javax.swing.JFrame {
     private static void pauseGame() {
         timer.stop();
         ghostManager.pause();
+        frame.pauseEffectPopup();
+        effects.pause();
         controls.pauseControls(true);
         isPaused = true;
         lastPauseTime = System.nanoTime();
@@ -578,6 +611,7 @@ public class CBLProject extends javax.swing.JFrame {
         timer.start();
         ghostManager.play();
         controls.pauseControls(false);
+        effects.resume();
         isPaused = false;
         objectiveDeadline = objectiveDeadline + (System.nanoTime() - lastPauseTime);
         ghostDeadline = ghostDeadline + (System.nanoTime() - lastPauseTime);
@@ -674,6 +708,48 @@ public class CBLProject extends javax.swing.JFrame {
         ghostManager.spawnGhost();
     }
     
+    public void showEffectPopup(Effect effect) {
+        String kind = effect.isBuff() ? "BUFF" : "DEBUFF";
+
+        String detail = effect.isInstant()
+                ? effect.getName()
+                : effect.getName() + " (" + effect.getSeconds() + "s)";
+
+        effectPopup.setText("<html><center><b>" + kind
+                + "</b><br>" + detail + "</center></html>");
+
+        effectPopup.setBackground(effect.isBuff()
+                ? new java.awt.Color(30, 140, 60)
+                : new java.awt.Color(190, 40, 40));
+
+        effectPopup.setSize(effectPopup.getPreferredSize());
+
+        java.awt.Rectangle bounds = getBoardBounds();
+
+        effectPopup.setLocation(
+                bounds.x + (bounds.width - effectPopup.getWidth()) / 2,
+                bounds.y + (bounds.height - effectPopup.getHeight()) / 2);
+
+        effectPopup.setVisible(true);
+        effectPopup.repaint();
+
+        effectPopupTimer.restart();
+    }
+    
+    public void pauseEffectPopup() {
+        if (effectPopupTimer != null) {
+            effectPopupTimer.stop();
+        }
+
+        if (effectPopup != null) {
+            effectPopup.setVisible(false);
+        }
+    }
+
+    public javax.swing.JLabel getEffectsList() {
+        return effectsList;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
     private DrawQueue drawQueue1;
@@ -682,6 +758,7 @@ public class CBLProject extends javax.swing.JFrame {
     private DrawQueue drawQueue4;
     private DrawQueue drawQueue5;
     private DrawQueue drawQueue6;
+    private javax.swing.JLabel effectsList;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
