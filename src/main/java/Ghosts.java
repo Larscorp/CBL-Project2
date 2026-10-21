@@ -21,7 +21,7 @@ public class Ghosts {
     private Random random = new Random();
     private int ghostAmount = 0;
     private final JPanel panel;
-    private Timer timer = new Timer(50, e -> update());
+    private Timer timer = new Timer(10, e -> update());
     private double ghostSpeed = 1;               
     private long lastDropTime = System.nanoTime();
     private long lastPause;
@@ -124,7 +124,7 @@ public class Ghosts {
     }
 
     public void setGhostSpeed(double level) {
-        ghostSpeed = 1 + (0.5 * (level - 1)); //temporary
+        ghostSpeed = 0.1;
     }    
 
     public int getGhostAmount() {

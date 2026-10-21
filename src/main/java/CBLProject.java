@@ -136,7 +136,6 @@ public class CBLProject extends javax.swing.JFrame {
         drawQueue3 = new DrawQueue();
         drawQueue5 = new DrawQueue();
         jButton1 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -144,6 +143,7 @@ public class CBLProject extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         boardPanel2 = new BoardPanel();
         objectiveTimerLabel = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -335,12 +335,6 @@ public class CBLProject extends javax.swing.JFrame {
         jButton1.setFocusable(false);
         jButton1.addActionListener(this::jButton1ActionPerformed);
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"))); // NOI18N
-        jLabel8.setText("jLabel8");
-        jLabel8.setMaximumSize(new java.awt.Dimension(100, 100));
-        jLabel8.setMinimumSize(new java.awt.Dimension(100, 100));
-        jLabel8.setPreferredSize(new java.awt.Dimension(100, 100));
-
         jLabel5.setText("HP:");
 
         jLabel9.setText("5");
@@ -370,6 +364,12 @@ public class CBLProject extends javax.swing.JFrame {
         objectiveTimerLabel.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         objectiveTimerLabel.setText("30s");
 
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"))); // NOI18N
+        jLabel8.setText("jLabel8");
+        jLabel8.setMaximumSize(new java.awt.Dimension(100, 100));
+        jLabel8.setMinimumSize(new java.awt.Dimension(100, 100));
+        jLabel8.setPreferredSize(new java.awt.Dimension(100, 100));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -394,15 +394,15 @@ public class CBLProject extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -413,18 +413,19 @@ public class CBLProject extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -484,18 +485,12 @@ public class CBLProject extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        board = new Board();
-        bag = new Bag();
-        queue = bag.getQueue();
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            frame = new CBLProject();
-            frame.setVisible(true);
-            startGame();
-        });
-    
-    }
+           java.awt.EventQueue.invokeLater(() -> {
+           MainMenu menu = new MainMenu();
+           menu.setLocationRelativeTo(null);
+           menu.setVisible(true);
+       });
+   }
     
     private static void startGame() {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
@@ -776,6 +771,45 @@ public class CBLProject extends javax.swing.JFrame {
     
     public static Board getBoard() {
         return board;
+    }
+    
+    public static void startFromMenu(MainMenu menu) {
+        gameOver = false;
+        isPaused = false;
+        score = 0;
+        canHold = true;
+
+        board = new Board();
+        bag = new Bag();
+        queue = bag.getQueue();
+
+        frame = new CBLProject();
+        frame.setLocationRelativeTo(null);
+        showScreen("Game");
+
+        frame.setVisible(true);
+        menu.dispose();
+
+        startGame();
+    }
+    
+    public void returnToMainMenu() {
+        if (timer != null) {
+            timer.stop();
+        }
+        if (ghostManager != null) {
+            ghostManager.pause();
+        }
+        if (effects != null) {
+            effects.pause();
+        }
+        pauseEffectPopup();
+        
+        MainMenu menu = new MainMenu();
+        menu.setLocationRelativeTo(null);
+        menu.setVisible(true);
+        
+        dispose();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
