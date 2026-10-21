@@ -49,6 +49,10 @@ public class Bag {
             case "Z" -> new Blocks(Blocks.Z, 1);
             case "debugT" -> new Blocks(Blocks.debugT, 7);
             case "bigO" -> new Blocks(Blocks.bigO, 3);
+            case "neutralFace" -> new Blocks(Blocks.neutralFace, 1);
+            case "stair" -> new Blocks(Blocks.stair, 1);
+            case "H" -> new Blocks(Blocks.H, 1);
+            case "N" -> new Blocks(Blocks.N, 1);
             default -> null;
         };
     }
@@ -70,8 +74,12 @@ public class Bag {
     
     public void addBlock(String block) {
         switch (block) {
+            case "neutralFace" -> blocks.add("neutralFace");
             case "debugT" -> blocks.add("debugT");
+            case "stair" -> blocks.add("stair");
             case "bigO" -> blocks.add("bigO");
+            case "N" -> blocks.add("N");
+            case "H" -> blocks.add("H");
             case "I" -> blocks.add("I");
             case "O" -> blocks.add("O");
             case "T" -> blocks.add("T");

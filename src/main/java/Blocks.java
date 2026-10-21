@@ -95,6 +95,32 @@ public class Blocks {
         {false, false, false}
     }, 5);
     
+    public static Blocks stair = new Blocks(new boolean[][] {
+        {false, false, false, true},
+        {false, false, true,  true},
+        {false, true,  false, true},
+        {true,  true,  true,  false}
+    }, 1); 
+
+    public static Blocks H = new Blocks(new boolean[][] {
+        {true,  false, false, true},
+        {true,  true,  true,  true},
+        {true,  false, false, true},
+        {true,  false, false, true}
+    }, 1); 
+
+    public static Blocks neutralFace = new Blocks(new boolean[][] {
+        {true,  false, true},
+        {false, false, false},
+        {true,  true,  true}
+    }, 1); 
+
+    public static Blocks N = new Blocks(new boolean[][] {
+        {true,  true,  false},
+        {true,  false, true},
+        {true,  false, true}
+    }, 1); // orange
+    
     public static Blocks debugT = new Blocks(new boolean[][] {
         {false,  true,  true,  true,  true,  true,  true,  false  },
         {true,  true,  true,  true,  true,  true,  true,  true  },
