@@ -30,6 +30,7 @@ public class CBLProject extends javax.swing.JFrame {
     private int hp = 5;
     private static long ghostDeadline;
     private static final long GHOST_INTERVAL = 30_000_000_000L; 
+    private static final long OBJECTIVE_INTERVAL = 5_000_000_000L;
     private static boolean isPaused = false;
     public static long lastPauseTime;
     private static CardLayout cards = new CardLayout();
@@ -50,7 +51,7 @@ public class CBLProject extends javax.swing.JFrame {
         ghostManager = new Ghosts(this);
         panel = boardPanel2;
         panel.setBoard(board);
-        setHPText(10);
+        setHPText(5);
         drawnQueue[0] = drawQueue1;
         drawnQueue[0].setQueuePiece(null);
         drawnQueue[1] = drawQueue2;
@@ -465,7 +466,7 @@ public class CBLProject extends javax.swing.JFrame {
         controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
         effectBag = new RandomizeEffects();
-        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel));
+        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel, frame));
         effectsDisplay = new EffectsDisplay(frame, effects);
         effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();
@@ -488,9 +489,10 @@ public class CBLProject extends javax.swing.JFrame {
                 drawHoldPiece.setQueuePiece(movement.getHoldPiece());
                 });
         controls.bind("SPACE", () -> {
-                movement.hardDrop(); 
+            if (movement.hardDrop()) {
                 lockAndSpawn(true);
-                });
+            }
+        });
         controls.bind("ESCAPE",   () -> togglePause());
         refresh();
         
@@ -590,7 +592,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void newObjective() {
         currentObjective = objectives.getNextObjective();
-        objectiveDeadline = System.nanoTime() + 30_000_000_000L;
+        objectiveDeadline = System.nanoTime() + OBJECTIVE_INTERVAL;
         showObjective();
     }
     
@@ -641,9 +643,35 @@ public class CBLProject extends javax.swing.JFrame {
         }
     }
     
+    public void setQueueHidden(boolean hidden) {
+        for (DrawQueue q : drawnQueue) {
+            q.setHidden(hidden);
+        }
+    }
+    
     public void setHPText(int health) {
         hp = health;
         jLabel9.setText(String.valueOf(health));
+    }
+    
+    public void multiplyGhostSpeed(double factor) {
+        ghostManager.multiplySpeed(factor);
+    }
+
+    public void addShield() {
+        ghostManager.addShield();
+    }
+
+    public void removeShield() {
+        ghostManager.removeShield();
+    }
+
+    public void addLife(int amount) {
+        setHPText(amount, true);
+    }
+
+    public void spawnExtraGhost() {
+        ghostManager.spawnGhost();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

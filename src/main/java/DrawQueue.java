@@ -4,6 +4,7 @@ import java.awt.*;
 public class DrawQueue extends JPanel {
     private Blocks queuePiece;
     private final int panelSize = 60;
+    private boolean hidden = false;
     
     public DrawQueue() {
         setBackground(Color.BLACK);
@@ -12,7 +13,7 @@ public class DrawQueue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (queuePiece == null) return;
+        if (queuePiece == null || hidden) return;
         int CELL_SIZE = (panelSize / queuePiece.getSize());
         boolean grid[][] = queuePiece.getGrid();
         int color = queuePiece.getColor();
@@ -50,6 +51,11 @@ public class DrawQueue extends JPanel {
         this.queuePiece = queuePiece;
         setPreferredSize(new Dimension(panelSize, panelSize));
         revalidate();
+        repaint();
+    }
+    
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
         repaint();
     }
 }

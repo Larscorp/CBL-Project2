@@ -19,6 +19,8 @@ public class Movement {
     private double fallDelayMultiplier = 1.0;
     private int holdBlockers = 0;
     private int state = 0;
+    private int rotateBlockers = 0;
+    private int hardDropBlockers = 0;
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -96,12 +98,19 @@ public class Movement {
         return moved;
     }
     
-    public void hardDrop() {
-        while (tryMove(1, 0)){
+    public boolean hardDrop() {
+        if (hardDropBlockers > 0) {
+            return false;
         }
+        while (tryMove(1, 0)) {
+        }
+        return true;
     }
     
     public boolean rotateClockwise() {
+        if (rotateBlockers > 0) {
+            return false;
+        }
         System.out.println(state);
         currentPiece.simpleRotateBlockClockwise();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
@@ -303,6 +312,9 @@ public class Movement {
     }
     
     public boolean rotateCounterClockwise() {
+        if (rotateBlockers > 0) {
+            return false;
+        }
         currentPiece.simpleRotateBlockCounterClockwise();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
             state--;
@@ -609,6 +621,28 @@ public class Movement {
     public void multiplyFallDelay(double factor) {
         fallDelayMultiplier *= factor;
     
+    }
+    
+    public void blockRotate()      { 
+        rotateBlockers++; 
+    }
+    
+    public void unblockRotate()    {
+        rotateBlockers--; 
+    }
+    
+    public void blockHardDrop()    { 
+        hardDropBlockers++; 
+    }
+    
+    public void unblockHardDrop()  { 
+        hardDropBlockers--; 
+    }
+
+    public void pushUpIfBlocked() {
+        while (pieceRow > 0 && !canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
+            pieceRow--;
+        }
     }
     public void blockHold() {
         holdBlockers++; 

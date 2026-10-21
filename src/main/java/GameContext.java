@@ -1,3 +1,4 @@
 public record GameContext(Board board, Movement movement,
-                          GameMechanics mechanics, BoardPanel panel) {
+                          GameMechanics mechanics, BoardPanel panel,
+                          CBLProject ui) {
 }

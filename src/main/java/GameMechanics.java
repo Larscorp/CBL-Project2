@@ -32,4 +32,9 @@ public class GameMechanics {
     public static int getScore() {
         return score;
     }
+    
+    public void addScore(int points) {
+        score = Math.max(0, score + points);
+        frame.setScoreText(score);
+    }
 }
