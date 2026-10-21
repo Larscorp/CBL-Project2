@@ -29,8 +29,8 @@ public class CBLProject extends javax.swing.JFrame {
     private static EffectsDisplay effectsDisplay;
     private int hp = 5;
     private static long ghostDeadline;
-    private static final long GHOST_INTERVAL = 30_000_000_000L; 
-    private static final long OBJECTIVE_INTERVAL = 5_000_000_000L;
+    private static final long GHOST_INTERVAL = 40_000_000_000L; 
+    private static final long OBJECTIVE_INTERVAL = 30_000_000_000L;
     private static boolean isPaused = false;
     public static long lastPauseTime;
     private static CardLayout cards = new CardLayout();

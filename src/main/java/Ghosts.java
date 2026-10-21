@@ -124,8 +124,8 @@ public class Ghosts {
     }
 
     public void setGhostSpeed(double level) {
-        ghostSpeed = 2 / level; //placeholder
-    }
+        ghostSpeed = 1 + (0.5 * (level - 1)); //temporary
+    }    
 
     public int getGhostAmount() {
         return ghostAmount;
