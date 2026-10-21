@@ -1,4 +1,5 @@
 
+import java.awt.CardLayout;
 import javax.swing.*;
 
 public class CBLProject extends javax.swing.JFrame {
@@ -26,17 +27,25 @@ public class CBLProject extends javax.swing.JFrame {
     private static RandomizeEffects effectBag;
     private static ActiveEffects effects;
     private static EffectsDisplay effectsDisplay;
-    private int hp = 10;
+    private int hp = 5;
     private static long ghostDeadline;
     private static final long GHOST_INTERVAL = 30_000_000_000L; 
     private static boolean isPaused = false;
     public static long lastPauseTime;
+    private static CardLayout cards = new CardLayout();
+    private static JPanel container = new JPanel(cards);
+    private static PauseMenu pausemenu;
     /**
      * Creates new form TheRest
      */
     public CBLProject() {
         System.out.println(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"));
         initComponents();
+        getContentPane().removeAll();
+        getContentPane().setLayout(new java.awt.BorderLayout());
+        container.add(jPanel1, "Game");
+        container.add(new PauseMenu(this), "Pause");
+        getContentPane().add(container, java.awt.BorderLayout.CENTER);
         jLabel10.setVisible(false);
         ghostManager = new Ghosts(this);
         panel = boardPanel2;
@@ -307,7 +316,7 @@ public class CBLProject extends javax.swing.JFrame {
 
         jLabel5.setText("HP:");
 
-        jLabel9.setText("9");
+        jLabel9.setText("5");
 
         jPanel4.setPreferredSize(new java.awt.Dimension(214, 100));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -356,13 +365,13 @@ public class CBLProject extends javax.swing.JFrame {
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(boardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -556,17 +565,21 @@ public class CBLProject extends javax.swing.JFrame {
         controls.pauseControls(true);
         isPaused = true;
         lastPauseTime = System.nanoTime();
-        
+        showScreen("Pause");
     }
     
-    private static void resumeGame() {
+    public static void showScreen(String name) {
+        cards.show(container, name);
+    }
+    
+    public static void resumeGame() {
         timer.start();
         ghostManager.play();
         controls.pauseControls(false);
         isPaused = false;
         objectiveDeadline = objectiveDeadline + (System.nanoTime() - lastPauseTime);
         ghostDeadline = ghostDeadline + (System.nanoTime() - lastPauseTime);
-
+        showScreen("Game");
     }
     
     private static void refresh() {
