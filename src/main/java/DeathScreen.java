@@ -41,12 +41,12 @@ public class DeathScreen extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("You died");
 
-        jToggleButton2.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jToggleButton2.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jToggleButton2.setText("Retry");
         jToggleButton2.setFocusable(false);
         jToggleButton2.addActionListener(this::jToggleButton2ActionPerformed);
 
-        jToggleButton3.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jToggleButton3.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jToggleButton3.setText("Quit");
         jToggleButton3.setFocusable(false);
         jToggleButton3.addActionListener(this::jToggleButton3ActionPerformed);
@@ -148,7 +148,11 @@ public class DeathScreen extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ui.returnToMainMenu();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    public void updateFinalScore() {
+        jLabel3.setText("" + CBLProject.getFinalScore());
+        jLabel3.setFont(new java.awt.Font("Candara", java.awt.Font.BOLD, 18));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

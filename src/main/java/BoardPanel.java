@@ -126,7 +126,7 @@ public class BoardPanel extends JPanel {
     public void setBoard(Board board) {
         this.board = board;
         int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-        CELL_SIZE = Math.max(20, Math.min(35, (screenHeight - 350) / board.getBoardLength()));
+        CELL_SIZE = Math.max(15, Math.min(35, (screenHeight - 350) / board.getBoardLength()));
 
         setPreferredSize(new Dimension(
             board.getBoardWidth() * CELL_SIZE,

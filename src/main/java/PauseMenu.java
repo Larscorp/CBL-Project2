@@ -36,12 +36,12 @@ public class PauseMenu extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Paused");
 
-        jToggleButton1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jToggleButton1.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jToggleButton1.setText("Resume");
         jToggleButton1.setFocusable(false);
         jToggleButton1.addActionListener(this::jToggleButton1ActionPerformed);
 
-        jToggleButton3.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jToggleButton3.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jToggleButton3.setText("Quit");
         jToggleButton3.setFocusable(false);
         jToggleButton3.addActionListener(this::jToggleButton3ActionPerformed);

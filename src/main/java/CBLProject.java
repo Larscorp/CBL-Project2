@@ -1,4 +1,5 @@
 import java.awt.CardLayout;
+import java.awt.GridBagLayout;
 import javax.swing.*;
 
 public class CBLProject extends javax.swing.JFrame {
@@ -34,25 +35,30 @@ public class CBLProject extends javax.swing.JFrame {
     private static CardLayout cards = new CardLayout();
     private static JPanel container = new JPanel(cards);
     private static PauseMenu pausemenu;
+    private static MainMenu mainmenu;
     private javax.swing.JLabel effectPopup;
     private javax.swing.Timer effectPopupTimer;
     private static EffectsDisplay effectsDisplay;
+    private static int finalScore = 0;
+    private static DeathScreen deathScreen;
     /**
      * Creates new form TheRest
      */
     public CBLProject() {
         System.out.println(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"));
         initComponents();
+        frame = this;
         getContentPane().removeAll();
         getContentPane().setLayout(new java.awt.BorderLayout());
-        container.add(jPanel1, "Game");
-        container.add(new PauseMenu(this), "Pause");
-        container.add(new DeathScreen(this), "Death");
+        container.add(createCenteredPanel(jPanel1), "Game");
+        container.add(createCenteredPanel(new PauseMenu(this)), "Pause");
+        deathScreen = new DeathScreen(this);
+        container.add(createCenteredPanel(deathScreen), "Death");
+        container.add(createCenteredPanel(new MainMenu()), "Main");
         getContentPane().add(container, java.awt.BorderLayout.CENTER);
         jLabel10.setVisible(false);
         ghostManager = new Ghosts(this);
         panel = boardPanel2;
-        panel.setBoard(board);
         setHPText(5);
         drawnQueue[0] = drawQueue1;
         drawnQueue[0].setQueuePiece(null);
@@ -485,12 +491,19 @@ public class CBLProject extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        java.awt.EventQueue.invokeLater(() -> {
+        frame = new CBLProject();
 
-           java.awt.EventQueue.invokeLater(() -> {
-           MainMenu menu = new MainMenu();
-           menu.setLocationRelativeTo(null);
-           menu.setVisible(true);
-       });
+        // Initialize the board size before showing the window
+        board = new Board();
+        panel.setBoard(board);
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+
+        showScreen("Main");
+    });
    }
     
     private static void startGame() {
@@ -586,7 +599,8 @@ public class CBLProject extends javax.swing.JFrame {
             gameOver = true;
             panel.setCurrentPiece(null, 0, 0);
             pauseGame();
-            System.out.println("Game over loser"); //debug, needs to be added to gui
+            finalScore = GameMechanics.getScore();
+            deathScreen.updateFinalScore();
             showScreen("Death");
             return;
         }
@@ -786,16 +800,14 @@ public class CBLProject extends javax.swing.JFrame {
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
+        panel.setBoard(board);
+        
+        frame.setHPText(5);
 
-        frame = new CBLProject();
-        frame.setLocationRelativeTo(null);
         showScreen("Game");
-
-        frame.setVisible(true);
-        menu.dispose();
-
         startGame();
-    }    
+    }
+    
     public static void startFromMenu() {
         gameOver = false;
         isPaused = false;
@@ -806,32 +818,48 @@ public class CBLProject extends javax.swing.JFrame {
         bag = new Bag();
         queue = bag.getQueue();
 
-        frame = new CBLProject();
-        frame.setLocationRelativeTo(null);
+        panel.setBoard(board);
+        frame.setHPText(5);
+        
         showScreen("Game");
-
-        frame.setVisible(true);
-
+        container.revalidate();
+        container.repaint();
+        
         startGame();
     }
     
     public void returnToMainMenu() {
         if (timer != null) {
-            timer.stop();
+        timer.stop();
+        timer = null;
         }
+
         if (ghostManager != null) {
             ghostManager.pause();
         }
+
         if (effects != null) {
             effects.pause();
         }
+
         pauseEffectPopup();
+
+        gameOver = false;
+        isPaused = false;
         
-        MainMenu menu = new MainMenu();
-        menu.setLocationRelativeTo(null);
-        menu.setVisible(true);
-        
-        dispose();
+        showScreen("Main");
+        container.revalidate();
+        container.repaint();
+    }
+    
+    private JPanel createCenteredPanel(JPanel panel) {
+        JPanel wrapper = new JPanel(new GridBagLayout());
+        wrapper.add(panel);
+        return wrapper;
+    }
+    
+    public static int getFinalScore() {
+        return finalScore;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
