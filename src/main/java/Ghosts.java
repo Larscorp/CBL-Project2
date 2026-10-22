@@ -124,10 +124,32 @@ public class Ghosts {
     }
 
     public void setGhostSpeed(double level) {
-        ghostSpeed = Math.max(0.15, 1.0 / level);
+        double targetArrivalTime = Math.max(
+            30.0, 190.0 * Math.pow(0.95, level - 1)
+        );
+        ghostSpeed = targetArrivalTime / 190.0;
     }    
 
     public int getGhostAmount() {
         return ghostAmount;
+    }
+    
+    public void reset() {
+        timer.stop();
+
+        for (int i = 0; i < ghostAmount; i++) {
+            panel.remove(labels[i]);
+            labels[i] = null;
+            ghosts[i] = 0;
+        }
+
+        ghostAmount = 0;
+        shields = 0;
+        speedMultiplier = 1.0;
+        ghostSpeed = 1.0;
+        lastDropTime = System.nanoTime();
+        panel.revalidate();
+        panel.repaint();
+        timer.start();
     }
 }
