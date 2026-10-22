@@ -41,6 +41,7 @@ public class RandomizeEffects {
         debuffs.add("EXTRAGHOST"); //adds ghost
         debuffs.add("GARBAGE"); //adds a garbage row
         debuffs.add("OSTAIR"); //adds either BigO or stair 
+        debuffs.add("NHNEUTRAL"); //adds 2 of N, H and NeutralFace
         Collections.shuffle(debuffs);
     }
 
@@ -137,6 +138,21 @@ public class RandomizeEffects {
                     ctx.bag().addBlock("stair");
                 }
             });    
+            case "NHNEUTRAL" -> Effect.instant("Bad Pieces", ctx -> {
+                Random r = new Random();
+                int r1 = r.nextInt(3);
+                if (r1 == 0) {
+                  ctx.bag().addBlock("N");
+                    ctx.bag().addBlock("H");  
+                } else if (r1 == 1) {
+                    ctx.bag().addBlock("N");
+                    ctx.bag().addBlock("neutralFace");
+                }
+                else if (r1 == 2) {
+                    ctx.bag().addBlock("neutralFace");
+                    ctx.bag().addBlock("H");
+                }
+            });
             default -> null;
         };
         return effect.asDebuff();
