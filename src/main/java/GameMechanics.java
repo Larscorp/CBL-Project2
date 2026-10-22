@@ -17,6 +17,12 @@ public class GameMechanics {
             case 2 -> 300 * level;
             case 3 -> 500 * level;
             case 4 -> 800 * level;
+            case 5 -> 1500 * level;
+            case 6 -> 2800 * level;
+            case 7 -> 4000 * level;
+            case 8 -> 6700 * level;
+            case 9 -> 12300 * level;
+            case 10 -> 19600 * level;
             default -> 0;
         };
         score += (points * scoreMultiplier);
