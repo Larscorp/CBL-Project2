@@ -495,9 +495,9 @@ public class CBLProject extends javax.swing.JFrame {
         controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
         effectBag = new RandomizeEffects();
-        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel, frame));
+        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel, frame, bag));
         effects = new ActiveEffects(
-        new GameContext(board, movement, gameMechanics, panel, frame));
+        new GameContext(board, movement, gameMechanics, panel, frame, bag));
         effectsDisplay = new EffectsDisplay(frame, effects);
         effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();

@@ -37,6 +37,7 @@ public class RandomizeEffects {
         debuffs.add("JAMMED"); //disables hard drop temporarily
         debuffs.add("EXTRAGHOST"); //adds ghost
         debuffs.add("GARBAGE"); //adds a garbage row
+        debuffs.add("OSTAIR"); //adds either BigO or stair 
         Collections.shuffle(debuffs);
     }
 
@@ -123,6 +124,9 @@ public class RandomizeEffects {
                 ctx.board().GarbageRow(GARBAGE_COLOR);
                 ctx.movement().pushUpIfBlocked();
             });
+            case "OSTAIR" -> Effect.instant("Bad Pieces", ctx -> {
+                ctx.bag().addBlock("bigO");
+            });    
             default -> null;
         };
         return effect.asDebuff();

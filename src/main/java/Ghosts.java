@@ -124,7 +124,7 @@ public class Ghosts {
     }
 
     public void setGhostSpeed(double level) {
-        ghostSpeed = 0.1;
+        ghostSpeed = Math.max(0.15, 1.0 / level);
     }    
 
     public int getGhostAmount() {
