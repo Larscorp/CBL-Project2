@@ -1,4 +1,4 @@
 public record GameContext(Board board, Movement movement,
                           GameMechanics mechanics, BoardPanel panel,
-                          CBLProject ui) {
+                          CBLProject ui, Bag bag) {
 }
