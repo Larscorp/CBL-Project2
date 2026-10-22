@@ -113,7 +113,6 @@ public class Movement {
         if (rotateBlockers > 0) {
             return false;
         }
-        System.out.println(state);
         currentPiece.simpleRotateBlockClockwise();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
             state++;
