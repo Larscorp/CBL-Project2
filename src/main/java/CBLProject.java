@@ -47,6 +47,7 @@ public class CBLProject extends javax.swing.JFrame {
         getContentPane().setLayout(new java.awt.BorderLayout());
         container.add(jPanel1, "Game");
         container.add(new PauseMenu(this), "Pause");
+        container.add(new DeathScreen(this), "Death");
         getContentPane().add(container, java.awt.BorderLayout.CENTER);
         jLabel10.setVisible(false);
         ghostManager = new Ghosts(this);
@@ -584,8 +585,9 @@ public class CBLProject extends javax.swing.JFrame {
                 ((next.getSize() + 1) / 2)))) {
             gameOver = true;
             panel.setCurrentPiece(null, 0, 0);
-            timer.stop();
+            pauseGame();
             System.out.println("Game over loser"); //debug, needs to be added to gui
+            showScreen("Death");
             return;
         }
         movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
@@ -791,6 +793,24 @@ public class CBLProject extends javax.swing.JFrame {
 
         frame.setVisible(true);
         menu.dispose();
+
+        startGame();
+    }    
+    public static void startFromMenu() {
+        gameOver = false;
+        isPaused = false;
+        score = 0;
+        canHold = true;
+
+        board = new Board();
+        bag = new Bag();
+        queue = bag.getQueue();
+
+        frame = new CBLProject();
+        frame.setLocationRelativeTo(null);
+        showScreen("Game");
+
+        frame.setVisible(true);
 
         startGame();
     }
