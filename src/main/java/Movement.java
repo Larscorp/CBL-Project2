@@ -21,6 +21,7 @@ public class Movement {
     private int state = 0;
     private int rotateBlockers = 0;
     private int hardDropBlockers = 0;
+    private double speed;
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
         this.board = board;
@@ -32,7 +33,8 @@ public class Movement {
     
     public double fallSpeed() {
         level = board.getLevel();
-        return (Math.pow((0.8 - ((level - 1) * 0.007)), (level - 1) / 5 + 1) * fallDelayMultiplier);
+        speed = (Math.pow((0.8 - ((level - 1) * 0.007)), (level - 1) / 5 + 1) * fallDelayMultiplier);
+        return Math.max(0.03, speed);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
     

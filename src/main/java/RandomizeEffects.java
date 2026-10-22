@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class RandomizeEffects {
     private ArrayList<String> buffs = new ArrayList<>();
@@ -8,6 +9,8 @@ public class RandomizeEffects {
     private static final int SCORE_BONUS = 500;
     private static final int SCORE_LOSS = 300;
     private static final int GARBAGE_COLOR = 8;
+    private int min = 1;
+    private int max = 10;
     
     public RandomizeEffects() {
         refillBuffs();
@@ -125,7 +128,14 @@ public class RandomizeEffects {
                 ctx.movement().pushUpIfBlocked();
             });
             case "OSTAIR" -> Effect.instant("Bad Pieces", ctx -> {
-                ctx.bag().addBlock("bigO");
+                Random r = new Random();
+                int r1 = r.nextInt(10);
+                if (r1 % 2 == 0) {
+                    ctx.bag().addBlock("bigO");
+                }
+                if (r1 % 2 == 1) {
+                    ctx.bag().addBlock("stair");
+                }
             });    
             default -> null;
         };
