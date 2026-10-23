@@ -29,7 +29,7 @@ Requirements
 
 \- Apache Maven 3.9.16
 
-&#x09;(for the command prompt version, you need to add it to prath using this tutorial: https://maven.apache.org/install.html)
+&#x09;(for the command prompt version, you need to add it to path using this tutorial: https://maven.apache.org/install.html)
 
 \- The AbsoluteLayout-SNAPSHOT.jar, included in the lib folder
 
