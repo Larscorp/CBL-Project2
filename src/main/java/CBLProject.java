@@ -888,7 +888,11 @@ public class CBLProject extends javax.swing.JFrame {
             timer.stop();
             timer = null;
         }
-
+        
+        if (effects != null) {
+            effects.clear();
+        }
+       
         if (ghostManager != null) {
             ghostManager.pause();
         }

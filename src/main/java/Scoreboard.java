@@ -38,6 +38,10 @@ public class Scoreboard {
     }
     
     public static void addScore(int score) {
+        if (score <= 0) {
+            return;
+        }
+        
         List<Integer> scores = load();
         scores.add(score);
         scores.sort(Comparator.reverseOrder());
@@ -56,4 +60,4 @@ public class Scoreboard {
             System.out.println("Could not save " + FILE + ": " + e.getMessage()); //debug
         }
     }
-}   
+}

@@ -46,6 +46,8 @@ public class GameMechanics {
     
     public void resetScore() {
         score = 0;
+        scoreMultiplier = 1.0;
+        frame.setLevelText(board.getLevel());
         frame.setScoreText(0);
     }
 }
