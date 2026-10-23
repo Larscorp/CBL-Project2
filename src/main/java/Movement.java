@@ -215,8 +215,6 @@ public class Movement {
                     }
                 }
                 default -> {
-                    currentPiece.simpleRotateBlockCounterClockwise();
-                    return false;
                 }
             }    
         } else if (currentPiece.getSize() == 4) {
@@ -318,8 +316,6 @@ public class Movement {
                     }
                 }
                 default -> {
-                    currentPiece.simpleRotateBlockCounterClockwise();
-                    return false;
                 }
             }
         }
@@ -434,8 +430,6 @@ public class Movement {
                     }
                 }
                 default -> {
-                    currentPiece.simpleRotateBlockClockwise();
-                    return false;
                 }
             }
         } else if (currentPiece.getSize() == 4) {
@@ -537,8 +531,6 @@ public class Movement {
                     }
                 }
                 default -> {
-                    currentPiece.simpleRotateBlockClockwise();
-                    return false;
                 }
             }
         }
@@ -610,7 +602,8 @@ public class Movement {
             case 1 -> currentPiece.simpleRotateBlockCounterClockwise();
             case 2 -> currentPiece.simpleRotate180();
             case 3 -> currentPiece.simpleRotateBlockClockwise();
-            default -> currentPiece.simpleRotateBlockClockwise();
+            default -> {
+            }
         }
         
         if (holdPiece == Blocks.Empty) {
