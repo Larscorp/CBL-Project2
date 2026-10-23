@@ -22,7 +22,7 @@ Requirements
 
 \- Java Development Kit version 26 (JDK 26).
 
-\- Apache Maven
+\- Apache Maven 3.9.16
 
 \- The AbsoluteLayout-SNAPSHOT.jar, included in the lib folder
 
@@ -49,15 +49,17 @@ How to build the project using command prompt:
 
 
 
-1\. Open the project folder containing pom.xml.
+1. Make sure Apache Maven and JDK are installed.
 
-2\. Type cmd in the address bar to open command prompt.
+2\. Open the project folder containing pom.xml.
 
-3\. Enter C:\\Program Files\\Apache NetBeans\\java\\maven\\bin\\mvn.cmd" clean package
+3\. Type cmd in the address bar to open command prompt.
 
-4\. Wait until it says BUILD SUCCES.
+4\. Enter "mvn clean package".
 
-5\. The .jar file will be in the target folder.
+5\. Wait until it says BUILD SUCCES.
+
+6\. The .jar file will be in the target folder.
 
 
 
@@ -79,7 +81,7 @@ How to run the application using command prompt:
 2. Find the .jar file in the target folder.
 3. Create a new text file named RunGame.bat in the same folder as the JAR (make sure its .bat and not .bat.txt).
 4. Open the file in Notepad and add the following commands:
-	@echo off
+     @echo off
 
 &#x09;cd /d "%\~dp0"
 
