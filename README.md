@@ -40,8 +40,9 @@ How to build the project using NetBeans:
 
 3\. Right-click the project and select Clean and Build.
 
-4. Wait until it says BUILD SUCCES.
-5. The .jar will be in the target folder.
+4\. Wait until it says BUILD SUCCES.
+
+5\. The .jar will be in the target folder.
 
 
 
@@ -49,7 +50,7 @@ How to build the project using command prompt:
 
 
 
-1. Make sure Apache Maven and JDK are installed.
+1\. Make sure Apache Maven and JDK are installed.
 
 2\. Open the project folder containing pom.xml.
 
@@ -77,10 +78,10 @@ How to run the application using command prompt:
 
 
 
-1. Build the project.
-2. Find the .jar file in the target folder.
-3. Create a new text file named RunGame.bat in the same folder as the JAR (make sure its .bat and not .bat.txt).
-4. Open the file in Notepad and add the following commands:
+1\. Build the project.
+2\. Find the .jar file in the target folder.
+3\. Create a new text file named RunGame.bat in the same folder as the JAR (make sure its .bat and not .bat.txt).
+4\. Open the file in Notepad and add the following commands:
 
 
 
