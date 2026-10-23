@@ -83,7 +83,8 @@ How to run the application using command prompt:
 4. Open the file in Notepad and add the following commands:
 
 
-	@echo off
+
+&#x09;@echo off
 
 &#x09;cd /d "%\~dp0"
 
