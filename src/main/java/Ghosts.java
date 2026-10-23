@@ -1,8 +1,10 @@
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.util.Random;
+
+//images were created by chatgpt, and resized by claude
 
 public class Ghosts {
     private final String[] imagePaths = {
@@ -142,7 +144,7 @@ public class Ghosts {
             labels[i] = null;
             ghosts[i] = 0;
         }
-
+        
         ghostAmount = 0;
         shields = 0;
         speedMultiplier = 1.0;

@@ -1,11 +1,9 @@
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class ActiveEffects {
-
     public record Info(String name, boolean buff, long secondsLeft) { }
 
     private static class Running {
@@ -40,12 +38,12 @@ public class ActiveEffects {
             return;
         }
         long end = getCurrentTime() + effect.getDurationNanos();
-        for (Running r : running) {
-            if (r.effect.getName().equals(effect.getName())) {
-                r.endTime = end;
+        for (int i = 0; i < running.size(); i++) {
+            if (running.get(i).effect.getName().equals(effect.getName())) {
+                running.get(i).endTime = end;
                 return;
             }
-        }
+        } 
         effect.start(ctx);
         running.add(new Running(effect, end));
     }
@@ -94,8 +92,8 @@ public class ActiveEffects {
     }
     
     public void clear() {
-        for (Running r : running) {
-            r.effect.end(ctx);
+        for (int i = 0; i < running.size(); i++) {
+            running.get(i).effect.end(ctx);
         }
         running.clear();
     }

@@ -21,6 +21,7 @@ public class Controls {
             }
         });
     }
+    
     public void pauseControls(boolean p) {
         paused = p;
     }

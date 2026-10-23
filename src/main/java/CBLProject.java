@@ -2,6 +2,8 @@ import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import javax.swing.*;
 
+//images were created by chatgpt, and resized by claude
+
 public class CBLProject extends javax.swing.JFrame {
     public static final int START_ROW = 0;
     public static final int START_COL = 3;
@@ -22,7 +24,8 @@ public class CBLProject extends javax.swing.JFrame {
     private static CBLProject frame;
     private static Controls controls;
     private static int score = 0;
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CBLProject.class.getName());
+    private static final java.util.logging.Logger LOGGER = 
+                java.util.logging.Logger.getLogger(CBLProject.class.getName());
     private static Ghosts ghostManager;
     private static RandomizeEffects effectBag;
     private static ActiveEffects effects;
@@ -43,9 +46,12 @@ public class CBLProject extends javax.swing.JFrame {
     private static EffectsDisplay effectsDisplay;
     private static int finalScore = 0;
     private static DeathScreen deathScreen;
+    private static boolean scoreRecorded = false;
+    
     /**
      * Creates new form TheRest
      */
+    
     public CBLProject() {
         System.out.println(getClass().getResource("/newpackage/castle_pixel_art_100x100.png"));
         initComponents();
@@ -144,7 +150,7 @@ public class CBLProject extends javax.swing.JFrame {
         drawQueue4 = new DrawQueue();
         drawQueue3 = new DrawQueue();
         drawQueue5 = new DrawQueue();
-        jButton1 = new javax.swing.JButton();
+        pauzeButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -340,10 +346,10 @@ public class CBLProject extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jButton1.setFont(new java.awt.Font("Wide Latin", 1, 12)); // NOI18N
-        jButton1.setText("||");
-        jButton1.setFocusable(false);
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        pauzeButton.setFont(new java.awt.Font("Wide Latin", 1, 12)); // NOI18N
+        pauzeButton.setText("||");
+        pauzeButton.setFocusable(false);
+        pauzeButton.addActionListener(this::pauzeButtonActionPerformed);
 
         jLabel5.setFont(new java.awt.Font("Candara", 1, 18)); // NOI18N
         jLabel5.setText("HP:");
@@ -413,7 +419,7 @@ public class CBLProject extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pauzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -447,7 +453,7 @@ public class CBLProject extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pauzeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -489,53 +495,57 @@ public class CBLProject extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void pauzeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauzeButtonActionPerformed
         togglePause();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_pauzeButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default 
+            look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager
+                    .LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
+            LOGGER.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        
         java.awt.EventQueue.invokeLater(() -> {
-        frame = new CBLProject();
+            frame = new CBLProject();
 
-        // Initialize the board size before showing the window
-        board = new Board();
-        panel.setBoard(board);
+            board = new Board();
+            panel.setBoard(board);
 
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
 
-        showScreen("Main");
-    });
-   }
+            showScreen("Main");
+        });
+    }
     
     private static void startGame() {
         movement = new Movement(board, bag, bag.getNextBlockQueue(), START_ROW, START_COL);
         controls = new Controls(panel);
         gameMechanics = new GameMechanics(board, frame);
+        gameMechanics.resetScore();
         effectBag = new RandomizeEffects();
-        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics, panel, frame, bag));
+        effects = new ActiveEffects(new GameContext(board, movement, gameMechanics,
+            panel, frame, bag));
         effects = new ActiveEffects(
-        new GameContext(board, movement, gameMechanics, panel, frame, bag));
+            new GameContext(board, movement, gameMechanics, panel, frame, bag));
         effectsDisplay = new EffectsDisplay(frame, effects);
         effects.setOnApply(effectsDisplay::announce);
         objectives = new RandomizeObjectives();
@@ -556,9 +566,9 @@ public class CBLProject extends javax.swing.JFrame {
         controls.bind("U",     () -> movement.rotate180());
         controls.bind("A",     () -> movement.rotate180());
         controls.bind("C",     () -> {
-                movement.putHold();
-                drawHoldPiece.setQueuePiece(movement.getHoldPiece());
-                });
+            movement.putHold();
+            drawHoldPiece.setQueuePiece(movement.getHoldPiece());
+        });
         controls.bind("SPACE", () -> {
             if (movement.hardDrop()) {
                 lockAndSpawn(true);
@@ -616,18 +626,18 @@ public class CBLProject extends javax.swing.JFrame {
         for (int n = 0; n < 5; n++) {
             drawnQueue[n].setQueuePiece(queue[n]);
         }
-        if (!movement.canSpawn(next, 0, (((board.getBoardWidth() + 1) / 2) - 
-                ((next.getSize() + 1) / 2)))) {
+        if (!movement.canSpawn(next, 0, (((board.getBoardWidth() + 1) / 2)
+                - ((next.getSize() + 1) / 2)))) {
             gameOver = true;
             panel.setCurrentPiece(null, 0, 0);
             pauseGame();
-            finalScore = GameMechanics.getScore();
+            recordScore();
             deathScreen.updateFinalScore();
             showScreen("Death");
             return;
         }
-        movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2) - 
-                ((next.getSize() + 1) / 2)));
+        movement.spawnNewPiece(next, 0, (((board.getBoardWidth() + 1) / 2)
+                - ((next.getSize() + 1) / 2)));
     }
     
     private static void togglePause() {                                         
@@ -666,7 +676,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void refresh() {
         panel.setGhostRow(movement.getGhostRow());
-        panel.setCurrentPiece(movement.getCurrentPiece(),movement.getPieceRow(),
+        panel.setCurrentPiece(movement.getCurrentPiece(), movement.getPieceRow(),
             movement.getPieceCol());
     }
     
@@ -680,8 +690,8 @@ public class CBLProject extends javax.swing.JFrame {
         if (!(ghostManager.getGhostAmount() == 0)) {
             ghostManager.removeGhost();
         } else {
-        Effect buff = effectBag.getNextBuff();
-        effects.apply(buff);
+            Effect buff = effectBag.getNextBuff();
+            effects.apply(buff);
         }
         newObjective();
     }
@@ -694,7 +704,7 @@ public class CBLProject extends javax.swing.JFrame {
     
     private static void showObjective() {
         frame.setObjectiveText(currentObjective.getDescription() + " "
-        + currentObjective.getProgress() + "/" + currentObjective.getTarget());
+            + currentObjective.getProgress() + "/" + currentObjective.getTarget());
     }
     
     public void setScoreText(int score) {
@@ -708,7 +718,12 @@ public class CBLProject extends javax.swing.JFrame {
     public void setObjectiveText(String objective) {
         jLabel12.setText(objective);
     }
-	
+    
+    public void setHPText(int health) {
+        hp = health;
+        jLabel9.setText(String.valueOf(health));
+    }
+    
     public void setHPText(int health, boolean increase) {
         if (increase) {
             hp = hp + health;
@@ -730,7 +745,7 @@ public class CBLProject extends javax.swing.JFrame {
                 effects.pause();
             }
 
-            finalScore = GameMechanics.getScore();
+            recordScore();
             deathScreen.updateFinalScore();
 
             isPaused = false;
@@ -739,14 +754,9 @@ public class CBLProject extends javax.swing.JFrame {
     }
     
     public void setQueueHidden(boolean hidden) {
-        for (DrawQueue q : drawnQueue) {
-            q.setHidden(hidden);
+        for (int i = 0; i < drawnQueue.length; i++) {
+            drawnQueue[i].setHidden(hidden);
         }
-    }
-    
-    public void setHPText(int health) {
-        hp = health;
-        jLabel9.setText(String.valueOf(health));
     }
     
     public void multiplyGhostSpeed(double factor) {
@@ -810,7 +820,6 @@ public class CBLProject extends javax.swing.JFrame {
         if (effectPopupTimer != null) {
             effectPopupTimer.stop();
         }
-
         if (effectPopup != null) {
             effectPopup.setVisible(false);
         }
@@ -833,6 +842,7 @@ public class CBLProject extends javax.swing.JFrame {
         isPaused = false;
         score = 0;
         canHold = true;
+        scoreRecorded = false;
 
         board = new Board();
         bag = new Bag();
@@ -854,7 +864,8 @@ public class CBLProject extends javax.swing.JFrame {
         isPaused = false;
         score = 0;
         canHold = true;
-
+        scoreRecorded = false;
+        
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
@@ -872,8 +883,8 @@ public class CBLProject extends javax.swing.JFrame {
     
     public void returnToMainMenu() {
         if (timer != null) {
-        timer.stop();
-        timer = null;
+            timer.stop();
+            timer = null;
         }
 
         if (ghostManager != null) {
@@ -907,19 +918,26 @@ public class CBLProject extends javax.swing.JFrame {
     private static long getGhostInterval() {
         double seconds = GHOST_BASE_SECONDS
                 * Math.pow(GHOST_MULTIPLIER, board.getLevel() - 1);
-
         seconds = Math.max(8.0, seconds);
-
         return (long) (seconds * 1_000_000_000L);
     }
 
     private static long getObjectiveInterval() {
         double seconds = OBJECTIVE_BASE_SECONDS
                 * Math.pow(OBJECTIVE_MULTIPLIER, board.getLevel() - 1);
-
         seconds = Math.max(20.0, seconds);
-
         return (long) (seconds * 1_000_000_000L);
+    }
+    
+    private static void recordScore() {
+        if (scoreRecorded) {
+            return;
+        }
+        scoreRecorded = true;
+        finalScore = GameMechanics.getScore();
+        if (finalScore >= 0) {
+            Scoreboard.addScore(finalScore);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public BoardPanel boardPanel2;
@@ -930,7 +948,6 @@ public class CBLProject extends javax.swing.JFrame {
     private DrawQueue drawQueue5;
     private DrawQueue drawQueue6;
     private javax.swing.JLabel effectsList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -949,6 +966,7 @@ public class CBLProject extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel objectiveTimerLabel;
+    private javax.swing.JButton pauzeButton;
     // End of variables declaration//GEN-END:variables
-    
+ 
 }

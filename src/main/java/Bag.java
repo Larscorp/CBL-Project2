@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -11,7 +10,7 @@ public class Bag {
         refill();
         fillQueue(5);
     }
-	
+    
     public void refill() {
         
         blocks.add("I");
@@ -87,7 +86,8 @@ public class Bag {
             case "L" -> blocks.add("L");
             case "S" -> blocks.add("S");
             case "Z" -> blocks.add("Z");
-        };
+            default -> System.out.println("Unkown Piece");
+        }
         Collections.shuffle(blocks);
     }
     

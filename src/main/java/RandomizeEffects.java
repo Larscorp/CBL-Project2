@@ -57,7 +57,7 @@ public class RandomizeEffects {
                 ctx -> ctx.mechanics().multiplyScore(1 / factor));
     }
 
-    // factor is a SPEED multiplier: 0.5 = half speed, 2.0 = double speed
+    //factor is an speed multiplier: 0,5 is half speed, 2,0 is double speed
     private Effect ghostSpeed(String name, int seconds, double factor) {
         return new Effect(name, seconds,
                 ctx -> ctx.ui().multiplyGhostSpeed(factor),
@@ -78,14 +78,16 @@ public class RandomizeEffects {
             case "FILLHOLE" -> Effect.instant("Fill " + HOLES_TO_FILL + " holes", ctx -> {
                 for (int i = 0; i < HOLES_TO_FILL; i++) {
                     ctx.board().fillHoles(8);
-                }});
+                }
+            });
             case "SLOWGHOSTS" -> ghostSpeed("Slower ghosts", 30, 0.5);
             case "SHIELD" -> new Effect("Shielded", 60,
                     ctx -> ctx.ui().addShield(),
                     ctx -> ctx.ui().removeShield());
             case "EXTRALIFE" -> Effect.instant("Extra life",
                     ctx -> ctx.ui().addLife(1));
-            case "SCOREBONUS" -> {int points = SCORE_BONUS * CBLProject.getBoard().getLevel();
+            case "SCOREBONUS" -> {
+                int points = SCORE_BONUS * CBLProject.getBoard().getLevel();
                 yield Effect.instant("You gain " + points + " points!",
                         ctx -> ctx.mechanics().addScore(points));
             }
@@ -112,7 +114,8 @@ public class RandomizeEffects {
                     ctx -> ctx.ui().setQueueHidden(true),
                     ctx -> ctx.ui().setQueueHidden(false));
             case "FASTGHOSTS" -> ghostSpeed("Faster ghosts", 20, 2.0);
-            case "SCORELOSS" -> {int points = SCORE_LOSS * CBLProject.getBoard().getLevel();
+            case "SCORELOSS" -> {
+                int points = SCORE_LOSS * CBLProject.getBoard().getLevel();
                 yield Effect.instant("You lose " + points + " points!",
                         ctx -> ctx.mechanics().addScore(-points));
             }
@@ -125,7 +128,7 @@ public class RandomizeEffects {
             case "EXTRAGHOST" -> Effect.instant("Extra ghost",
                     ctx -> ctx.ui().spawnExtraGhost());
             case "GARBAGE" -> Effect.instant("Garbage row", ctx -> {
-                ctx.board().GarbageRow(GARBAGE_COLOR);
+                ctx.board().garbageRow(GARBAGE_COLOR);
                 ctx.movement().pushUpIfBlocked();
             });
             case "OSTAIR" -> Effect.instant("Bad Pieces", ctx -> {
@@ -142,13 +145,12 @@ public class RandomizeEffects {
                 Random r = new Random();
                 int r1 = r.nextInt(3);
                 if (r1 == 0) {
-                  ctx.bag().addBlock("N");
+                    ctx.bag().addBlock("N");
                     ctx.bag().addBlock("H");  
                 } else if (r1 == 1) {
                     ctx.bag().addBlock("N");
                     ctx.bag().addBlock("neutralFace");
-                }
-                else if (r1 == 2) {
+                } else if (r1 == 2) {
                     ctx.bag().addBlock("neutralFace");
                     ctx.bag().addBlock("H");
                 }

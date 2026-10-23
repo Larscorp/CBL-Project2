@@ -9,12 +9,23 @@ public final class Rules {
         return (progress, e) -> progress + value.applyAsInt(e);
     }
 
-    
     public static Rule countIf(Predicate<LockEvent> condition) {
-        return (progress, e) -> condition.test(e) ? progress + 1 : progress;
+        return (progress, e) -> {
+            if (condition.test(e)) {
+                return progress + 1;
+            } else {
+                return progress;
+            }
+        };
     }
 
     public static Rule streakOf(Predicate<LockEvent> condition) {
-        return (progress, e) -> condition.test(e) ? progress + 1 : 0;
+        return (progress, e) -> {
+            if (condition.test(e)) {
+                return progress + 1;
+            } else {
+                return 0;
+            }
+        };
     }
 }
