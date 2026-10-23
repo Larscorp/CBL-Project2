@@ -81,13 +81,17 @@ How to run the application using command prompt:
 2. Find the .jar file in the target folder.
 3. Create a new text file named RunGame.bat in the same folder as the JAR (make sure its .bat and not .bat.txt).
 4. Open the file in Notepad and add the following commands:
-     @echo off
+
+
+	@echo off
 
 &#x09;cd /d "%\~dp0"
 
 &#x09;java -cp "CBLProject-1.0-SNAPSHOT.jar;lib\\\*" CBLProject
 
 &#x09;pause
+
+
 
 6\. Double click runGame.bat
 
