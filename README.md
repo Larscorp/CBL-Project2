@@ -98,7 +98,7 @@ How to run the application using command prompt:
 
 
 
-6\. Double click runGame.bat
+5\. Double click runGame.bat
 
 
 
