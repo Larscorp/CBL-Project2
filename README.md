@@ -16,6 +16,11 @@ Tetris trials is a different twist on Tetris, mixing it with objectives and towe
 
 
 
+How the game exactly works:
+The game plays as normal Tetris. Every so often, an objective will be given to you and a ghost will also spawn (these have different timings). Completing objectives within the set time rewards you by removing a ghost, and failing to complete one in time gives you a debuff. Completing an objective when there are no active ghosts rewards you with a buff. If a ghost manages to reach the castle, you lose 1hp. If you hp reaches 0, you lose! Normal Tetris loss conditions also still apply. As the game goes on, it will get faster and faster, so be ready!
+
+
+
 Requirements
 
 
