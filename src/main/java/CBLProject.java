@@ -836,14 +836,14 @@ public class CBLProject extends javax.swing.JFrame {
     public static Board getBoard() {
         return board;
     }
-    
+    /*
     public static void startFromMenu(MainMenu menu) {
         gameOver = false;
         isPaused = false;
         score = 0;
         canHold = true;
         scoreRecorded = false;
-
+        movement.removeHold();
         board = new Board();
         bag = new Bag();
         queue = bag.getQueue();
@@ -857,7 +857,7 @@ public class CBLProject extends javax.swing.JFrame {
         container.repaint();
         
         startGame();
-    }
+    }*/
     
     public static void startFromMenu() {
         gameOver = false;
@@ -865,6 +865,7 @@ public class CBLProject extends javax.swing.JFrame {
         score = 0;
         canHold = true;
         scoreRecorded = false;
+        drawHoldPiece.setQueuePiece(null);
         
         board = new Board();
         bag = new Bag();
@@ -879,6 +880,7 @@ public class CBLProject extends javax.swing.JFrame {
         container.repaint();
         
         startGame();
+        movement.removeHold();
     }
     
     public void returnToMainMenu() {

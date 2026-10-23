@@ -701,4 +701,8 @@ public class Movement {
     public boolean usedHold() {
         return !canHold; 
     }
+    
+    public void removeHold() {
+        holdPiece = Blocks.Empty;
+    }
 }
