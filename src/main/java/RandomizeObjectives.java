@@ -21,10 +21,6 @@ public class RandomizeObjectives {
         objectives.add("2DOUBLES");
         objectives.add("TRIPLE");
         objectives.add("TETRIS");
-        //objectives.add("HOLD4"); -> need to add
-        //objectives.add("CLEAR3_HARD5"); -> need to implement
-        //objectives.add("CLEAR3_PLACE10"); -> need to implement
-        //objectives.add("DOUBLE_HARD5"); -> need to implement
                 
         Collections.shuffle(objectives);
     }
@@ -37,7 +33,7 @@ public class RandomizeObjectives {
         
         Predicate<LockEvent> noHold = e -> !e.usedHold();
         
-                return switch (next) {
+        return switch (next) {
             case "CLEAR4" -> new Objective("Clear 4 lines", 4,
                     Rules.count(LockEvent::linesCleared));
               

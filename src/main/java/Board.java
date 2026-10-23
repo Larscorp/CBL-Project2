@@ -106,7 +106,7 @@ public class Board {
         return false;
     }
     
-    public boolean GarbageRow(int color) {
+    public boolean garbageRow(int color) {
         for (int c = 0; c < boardWidth; c++) {
             if (grid[0][c] != 0) {
                 return false;

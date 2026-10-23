@@ -33,6 +33,20 @@
               </Group>
               <EmptySpace min="-2" pref="196" max="-2" attributes="0"/>
           </Group>
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                      <Component id="scoreboard" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="210" max="-2" attributes="0"/>
+                      <Component id="scoreboardLabel" max="32767" attributes="0"/>
+                      <EmptySpace min="117" pref="117" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -44,7 +58,11 @@
               <Component id="mainPlayButton" min="-2" pref="48" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="mainQuitMenu" min="-2" pref="46" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="453" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="scoreboardLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="scoreboard" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="209" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -73,6 +91,93 @@
           <Font name="Candara" size="18" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Quit"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JPanel" name="scoreboard">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="scoreLabel5" max="32767" attributes="0"/>
+                      <Component id="scoreLabel4" alignment="0" max="32767" attributes="0"/>
+                      <Component id="scoreLabel1" alignment="0" max="32767" attributes="0"/>
+                      <Component id="scoreLabel2" alignment="0" max="32767" attributes="0"/>
+                      <Component id="scoreLabel3" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="scoreLabel1" min="-2" pref="31" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="scoreLabel2" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="scoreLabel3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="scoreLabel4" min="-2" pref="29" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="scoreLabel5" min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="scoreLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Candara" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="1. -"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="scoreLabel2">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Candara" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="2. -"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="scoreLabel3">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Candara" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="3. -"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="scoreLabel4">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Candara" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="4. -"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="scoreLabel5">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Candara" size="18" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="5. -"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="scoreboardLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Candara" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Scoreboard"/>
       </Properties>
     </Component>
   </SubComponents>

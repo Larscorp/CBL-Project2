@@ -1,4 +1,3 @@
-
 public class Movement {
     
     private final Board board;
@@ -11,16 +10,16 @@ public class Movement {
     private Blocks currentPiece;
     private Blocks holdPiece = Blocks.Empty;
     private boolean canHold = true;
-    private static final long LOCK_DELAY =1_000_000_000L; //lock delay in nanoseconds
+    private static final long LOCK_DELAY = 1_000_000_000L; //lock delay in nanoseconds
     private static final int MAX_RESETS = 5; //max amount of stall time
     private boolean grounded = false;   
     private long lockStart;             
     private int lockResets = 0; //how many times moved on the ground
-    private double fallDelayMultiplier = 1.0;
-    private int holdBlockers = 0;
+    private double fallMultiplier = 1.0;
+    private int holdBlock = 0;
     private int state = 0;
-    private int rotateBlockers = 0;
-    private int hardDropBlockers = 0;
+    private int holdBlockDebuff = 0;
+    private int hardDropBlock = 0;
     private double speed;
     
     public Movement(Board board, Bag bag, Blocks currentPiece, int startRow, int startCol) {
@@ -33,7 +32,7 @@ public class Movement {
     
     public double fallSpeed() {
         level = board.getLevel();
-        speed = (Math.pow((0.8 - ((level - 1) * 0.007)), (level - 1) / 5 + 1) * fallDelayMultiplier);
+        speed = (Math.pow((0.8 - ((level - 1) * 0.007)), (level - 1) / 5 + 1) * fallMultiplier);
         return Math.max(0.03, speed);
         //determines the amount of seconds that you have before a block reaches the bottom
     }
@@ -101,7 +100,7 @@ public class Movement {
     }
     
     public boolean hardDrop() {
-        if (hardDropBlockers > 0) {
+        if (hardDropBlock > 0) {
             return false;
         }
         while (tryMove(1, 0)) {
@@ -110,7 +109,7 @@ public class Movement {
     }
     
     public boolean rotateClockwise() {
-        if (rotateBlockers > 0) {
+        if (holdBlockDebuff > 0) {
             return false;
         }
         currentPiece.simpleRotateBlockClockwise();
@@ -119,7 +118,7 @@ public class Movement {
             return true;
         } else if (currentPiece.getSize() == 3) {
             switch (((state % 4) + 4) % 4) {
-                case 0:
+                case 0 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state++;
                         pieceCol--;
@@ -142,7 +141,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 1:
+                }
+                case 1 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state++;
                         pieceCol++;
@@ -165,7 +165,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 2:
+                }
+                case 2 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state++;
                         pieceCol++;
@@ -188,7 +189,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 3:
+                }
+                case 3 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state++;
                         pieceCol--;
@@ -211,10 +213,13 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-            }
+                }
+                default -> {
+                }
+            }    
         } else if (currentPiece.getSize() == 4) {
             switch (((state % 4) + 4) % 4) {
-                case 0:
+                case 0 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
                         state++;
                         pieceCol = pieceCol - 2;
@@ -237,7 +242,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 1:
+                }
+                case 1 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state++;
                         pieceCol--;
@@ -260,7 +266,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 2:
+                }
+                case 2 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
                         state++;
                         pieceCol = pieceCol + 2;
@@ -283,7 +290,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
-                case 3:
+                }
+                case 3 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state++;
                         pieceCol++;
@@ -306,6 +314,9 @@ public class Movement {
                         currentPiece.simpleRotateBlockCounterClockwise();
                         return false;
                     }
+                }
+                default -> {
+                }
             }
         }
         currentPiece.simpleRotateBlockCounterClockwise();
@@ -313,7 +324,7 @@ public class Movement {
     }
     
     public boolean rotateCounterClockwise() {
-        if (rotateBlockers > 0) {
+        if (holdBlockDebuff > 0) {
             return false;
         }
         currentPiece.simpleRotateBlockCounterClockwise();
@@ -322,7 +333,7 @@ public class Movement {
             return true;
         } else if (currentPiece.getSize() == 3) {
             switch (((state % 4) + 4) % 4) {
-                case 0:
+                case 0 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state--;
                         pieceCol++;
@@ -345,7 +356,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 3:
+                }
+                case 3 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state--;
                         pieceCol--;
@@ -368,7 +380,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 2:
+                }
+                case 2 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state--;
                         pieceCol--;
@@ -391,7 +404,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 1:
+                }
+                case 1 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state--;
                         pieceCol++;
@@ -414,10 +428,13 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
+                }
+                default -> {
+                }
             }
         } else if (currentPiece.getSize() == 4) {
             switch (((state % 4) + 4) % 4) {
-                case 0:
+                case 0 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 1)) {
                         state--;
                         pieceCol--;
@@ -440,7 +457,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 1:
+                }
+                case 1 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 2)) {
                         state--;
                         pieceCol = pieceCol + 2;
@@ -463,7 +481,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 2:
+                }
+                case 2 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol + 1)) {
                         state--;
                         pieceCol++;
@@ -486,7 +505,8 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
-                case 3:
+                }
+                case 3 -> {
                     if (canMove(currentPiece.getGrid(), pieceRow, pieceCol - 2)) {
                         state--;
                         pieceCol = pieceCol - 2;
@@ -509,6 +529,9 @@ public class Movement {
                         currentPiece.simpleRotateBlockClockwise();
                         return false;
                     }
+                }
+                default -> {
+                }
             }
         }
         currentPiece.simpleRotateBlockClockwise();
@@ -517,6 +540,9 @@ public class Movement {
     
     //debug
     public boolean rotate180() {
+        if (holdBlockDebuff > 0) {
+            return false;
+        }
         currentPiece.simpleRotate180();
         if (canMove(currentPiece.getGrid(), pieceRow, pieceCol)) {
             state = state + 2;
@@ -537,11 +563,11 @@ public class Movement {
                 grounded = true;
                 lockStart = now;
             }
-        return now - lockStart >= LOCK_DELAY;    
+            return now - lockStart >= LOCK_DELAY;    
         }
         grounded = false;
         if (gravityDrops()) {
-            tryMove(1,0);
+            tryMove(1, 0);
         }
         return false;
     }
@@ -568,7 +594,7 @@ public class Movement {
     }
     
     public void putHold() {
-        if (!canHold || holdBlockers > 0) {
+        if (!canHold || holdBlock > 0) {
             return;
         }
         canHold = false;
@@ -576,13 +602,15 @@ public class Movement {
             case 1 -> currentPiece.simpleRotateBlockCounterClockwise();
             case 2 -> currentPiece.simpleRotate180();
             case 3 -> currentPiece.simpleRotateBlockClockwise();
+            default -> {
+            }
         }
         
         if (holdPiece == Blocks.Empty) {
             holdPiece = currentPiece;
             currentPiece = bag.getNextBlockQueue();
-            spawnNewPiece(currentPiece, 0, (((board.getBoardWidth() + 1) / 2) - 
-                    ((currentPiece.getSize() + 1) / 2)));
+            spawnNewPiece(currentPiece, 0, (((board.getBoardWidth() + 1) / 2)
+                    - ((currentPiece.getSize() + 1) / 2)));
             
         } else {
             Blocks tempPiece = currentPiece;
@@ -620,24 +648,24 @@ public class Movement {
     }
 
     public void multiplyFallDelay(double factor) {
-        fallDelayMultiplier *= factor;
+        fallMultiplier *= factor;
     
     }
     
     public void blockRotate()      { 
-        rotateBlockers++; 
+        holdBlockDebuff++; 
     }
     
     public void unblockRotate()    {
-        rotateBlockers--; 
+        holdBlockDebuff--; 
     }
     
     public void blockHardDrop()    { 
-        hardDropBlockers++; 
+        hardDropBlock++; 
     }
     
     public void unblockHardDrop()  { 
-        hardDropBlockers--; 
+        hardDropBlock--; 
     }
 
     public void pushUpIfBlocked() {
@@ -645,12 +673,13 @@ public class Movement {
             pieceRow--;
         }
     }
+    
     public void blockHold() {
-        holdBlockers++; 
+        holdBlock++; 
     }
     
     public void unblockHold() { 
-        holdBlockers--; 
+        holdBlock--; 
     }
     
     public Blocks getCurrentPiece() {

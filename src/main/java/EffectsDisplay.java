@@ -31,7 +31,7 @@ public class EffectsDisplay {
     private void refreshList() {
         String lines = effects.snapshot().stream()
                 .map(i -> "<font color='"
-                        + (i.buff() ? "#2e8b57" : "#c0392b")
+                        + getEffectColor(i.buff())
                         + "'>" + i.name() + " "
                         + i.secondsLeft() + "s</font>")
                 .collect(java.util.stream.Collectors.joining("<br>"));
@@ -41,7 +41,7 @@ public class EffectsDisplay {
         }
 
         String text = "<html><font face='Candara' size='5'><b>Active effects:</b></font><br>"
-        + "<font face='Candara' size='3'>" + lines + "</font></html>";
+            + "<font face='Candara' size='3'>" + lines + "</font></html>";
 
         if (text.equals(lastText)) {
             return;
@@ -49,5 +49,13 @@ public class EffectsDisplay {
 
         lastText = text;
         list.setText(text);
+    }
+    
+    private String getEffectColor(boolean buff) {
+        if (buff) {
+            return "#2e8b57";
+        } else {
+            return "#c0392b";
+        }
     }
 }

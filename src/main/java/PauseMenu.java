@@ -1,5 +1,6 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt
+    to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 
@@ -9,9 +10,11 @@
  */
 public class PauseMenu extends javax.swing.JPanel {
     private static CBLProject ui;
+    
     /**
      * Creates new form PauseMenu
      */
+    
     public PauseMenu(CBLProject ui) {
         initComponents();
         this.ui = ui;

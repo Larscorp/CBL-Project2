@@ -43,4 +43,9 @@ public class GameMechanics {
         score = Math.max(0, score + points);
         frame.setScoreText(score);
     }
+    
+    public void resetScore() {
+        score = 0;
+        frame.setScoreText(0);
+    }
 }

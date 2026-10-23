@@ -6,8 +6,7 @@ public class Effect {
     private final Consumer<GameContext> onStart;
     private final Consumer<GameContext> onEnd;
     private boolean buff = false; //false = debuff
-    private String imagePath;     //optional image for the popup (null = none)
-
+    
     public Effect(String name, int seconds,
                   Consumer<GameContext> onStart, Consumer<GameContext> onEnd) {
         this.name = name;
@@ -29,12 +28,7 @@ public class Effect {
         buff = false;
         return this;
     }
-
-    public Effect withImage(String resourcePath) {
-        this.imagePath = resourcePath;
-        return this;
-    }
-
+    
     public void start(GameContext ctx) {
         onStart.accept(ctx);
     }
@@ -46,11 +40,7 @@ public class Effect {
     public boolean isInstant() {
         return seconds == 0;
     }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
+    
     public boolean isBuff() {
         return buff;
     }

@@ -28,6 +28,5 @@ public class Objective {
     
     public boolean isComplete() {
         return progress >= target;
-    }
-    
+    }   
 }

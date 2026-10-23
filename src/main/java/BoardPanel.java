@@ -1,10 +1,10 @@
-import javax.swing.*;
-import java.awt.*;       
+import java.awt.*;
+import javax.swing.*;      
         
 public class BoardPanel extends JPanel {
     
     private Board board;
-    private int CELL_SIZE = 20;
+    private int cellSize = 20;
     
     private Blocks currentPiece;
     private int pieceRow;
@@ -19,7 +19,9 @@ public class BoardPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (board == null) return;
+        if (board == null) {
+            return;
+        }
         int[][] grid = board.getGrid();
         
         for (int i = 0; i < board.getBoardLength(); i++) {
@@ -28,14 +30,14 @@ public class BoardPanel extends JPanel {
                 
                 if (color == 0) {
                     g.setColor(Color.BLACK);
-                    g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE); 
-               } else {
+                    g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize); 
+                } else {
                     g.setColor(getBlockColor(color));
-                    g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
                 }
                 if (i >= 2) {
-                g.setColor(Color.DARK_GRAY);
-                g.drawRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    g.setColor(Color.DARK_GRAY);
+                    g.drawRect(j * cellSize, i * cellSize, cellSize, cellSize);
                 }
             }
         }
@@ -50,7 +52,6 @@ public class BoardPanel extends JPanel {
                         if (!pieceGrid[row][col]) {
                             continue;
                         }
-
                         int boardRow = ghostRow + row;
                         int boardCol = pieceCol + col;
 
@@ -58,10 +59,9 @@ public class BoardPanel extends JPanel {
                             || boardCol >= board.getBoardWidth()) {
                             continue;
                         }
-
                         Color c = getBlockColor(color);
                         g.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 80));
-                        g.fillRect(boardCol * CELL_SIZE, boardRow * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                        g.fillRect(boardCol * cellSize, boardRow * cellSize, cellSize, cellSize);
                     }
                 }  
             }
@@ -71,29 +71,26 @@ public class BoardPanel extends JPanel {
                     if (!pieceGrid[row][col]) {
                         continue;
                     }
-
                     int boardRow = pieceRow + row;
                     int boardCol = pieceCol + col;
 
                     if (boardRow < 0 || boardRow >= board.getBoardLength() || boardCol < 0
-                    || boardCol >= board.getBoardWidth()) {
+                        || boardCol >= board.getBoardWidth()) {
                         continue;
                     }
-
                     g.setColor(getBlockColor(color));
 
-                    g.fillRect(boardCol * CELL_SIZE,
-                            boardRow * CELL_SIZE,
-                            CELL_SIZE,
-                            CELL_SIZE
+                    g.fillRect(boardCol * cellSize,
+                            boardRow * cellSize,
+                            cellSize,
+                            cellSize
                     );
-
                     g.setColor(Color.WHITE);
 
-                    g.drawRect(boardCol * CELL_SIZE,
-                        boardRow * CELL_SIZE,
-                        CELL_SIZE,
-                        CELL_SIZE
+                    g.drawRect(boardCol * cellSize,
+                        boardRow * cellSize,
+                        cellSize,
+                        cellSize
                     );
                 }
             }
@@ -126,11 +123,10 @@ public class BoardPanel extends JPanel {
     public void setBoard(Board board) {
         this.board = board;
         int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-        CELL_SIZE = Math.max(15, Math.min(35, (screenHeight - 350) / board.getBoardLength()));
+        cellSize = Math.max(15, Math.min(35, (screenHeight - 350) / board.getBoardLength()));
 
-        setPreferredSize(new Dimension(
-            board.getBoardWidth() * CELL_SIZE,
-            board.getBoardLength() * CELL_SIZE));
+        setPreferredSize(new Dimension(board.getBoardWidth() * cellSize,
+            board.getBoardLength() * cellSize));
         revalidate();
         repaint();
     }
@@ -138,7 +134,7 @@ public class BoardPanel extends JPanel {
     public void setGhostVisible(boolean visible) { 
         ghostVisible = visible; 
     }
-	
+    
     public void setGhostRow(int row) {
         this.ghostRow = row;
     }

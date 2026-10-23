@@ -1,10 +1,11 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class DrawQueue extends JPanel {
     private Blocks queuePiece;
     private final int panelSize = 60;
     private boolean hidden = false;
+    private int cellSize;
     
     public DrawQueue() {
         setBackground(Color.BLACK);
@@ -13,24 +14,26 @@ public class DrawQueue extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (queuePiece == null || hidden) return;
-        int CELL_SIZE = (panelSize / queuePiece.getSize());
-        boolean grid[][] = queuePiece.getGrid();
+        if (queuePiece == null || hidden) {
+            return;
+        }
+        
+        cellSize = (panelSize / queuePiece.getSize());
+        boolean[][] grid = queuePiece.getGrid();
         int color = queuePiece.getColor();
         for (int i = 0; i < queuePiece.getSize(); i++) {
             for (int j = 0; j < queuePiece.getSize(); j++) {
                 if (!grid[i][j]) {
                     g.setColor(Color.BLACK);
-                    g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE); 
-               } else {
+                    g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize); 
+                } else {
                     g.setColor(getBlockColor(color));
-                    g.fillRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                    g.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
                 }
                 g.setColor(Color.DARK_GRAY);
-                g.drawRect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                g.drawRect(j * cellSize, i * cellSize, cellSize, cellSize);
             }
         }
-       
     }
     
     private Color getBlockColor(int color) {
