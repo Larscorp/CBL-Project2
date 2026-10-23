@@ -79,8 +79,11 @@ How to run the application using command prompt:
 
 
 1\. Build the project.
+
 2\. Find the .jar file in the target folder.
+
 3\. Create a new text file named RunGame.bat in the same folder as the JAR (make sure its .bat and not .bat.txt).
+
 4\. Open the file in Notepad and add the following commands:
 
 
