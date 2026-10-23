@@ -32,7 +32,7 @@ public class Scoreboard {
                 scores.remove(scores.size() - 1);
             }
         } catch (IOException e) {
-            System.out.println("Could not read " + FILE + ": " + e.getMessage());
+            System.out.println("Could not read " + FILE + ": " + e.getMessage()); //debug
         }
         return scores;
     }
@@ -53,7 +53,7 @@ public class Scoreboard {
         try {
             Files.write(FILE, lines);
         } catch (IOException e) {
-            System.out.println("Could not save " + FILE + ": " + e.getMessage());
+            System.out.println("Could not save " + FILE + ": " + e.getMessage()); //debug
         }
     }
 }   
